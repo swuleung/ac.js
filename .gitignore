@@ -1,3 +1,5 @@
 
 # Ignore NetBeans Projects
 nbproject
+
+*.pyc

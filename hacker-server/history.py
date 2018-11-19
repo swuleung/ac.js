@@ -4,6 +4,7 @@ import datetime
 import decimal
 
 ################## Create Tables ######################
+
 def createTables():
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -18,9 +19,9 @@ def createTables():
     q = "DELETE from History"
     c.execute(q)
     conn.close()
-
+createTables()
 def addToHistory(email, url, lastvisited):
-    createTables()
+    # createTables()
     s = round(float(lastvisited), 0) / 1000.0
     datetime.datetime.fromtimestamp(s).strftime('%Y-%m-%d %H:%M:%S.%f')
     conn = sqlite3.connect("data.db")
