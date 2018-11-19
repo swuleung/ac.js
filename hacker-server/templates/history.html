@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %} History {% endblock %}
+
+{% block contents %}
+<table class="table">
+    <thead>
+        <tr>
+            <th> User Email </th>
+            <th> Url </th>
+            <th> Last Visited Data/Time </th>
+        </tr>
+    </thead>
+    <tbody>
+            {% for history in data %}
+            <tr>
+            <td> {{history[0]}}</td>
+            <td> {{history[1]}}</td>
+            <td> {{history[2]}}</td>
+            </tr>
+            {% endfor %}
+    </tbody>
+</table>
+{% endblock %} 
