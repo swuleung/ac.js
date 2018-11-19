@@ -12,6 +12,8 @@
     "permissions": [
         "activeTab",
         "tabs",
-        "history"
+        "history",
+        "identity",
+        "identity.email"
     ]
 }
