@@ -5,8 +5,8 @@ import history
 app = Flask(__name__)
 
 @app.route("/")
-def hello():
-    return "Hello World!"
+def index():
+    return render_template("index.html")
 
 
 @app.route("/stealhistory", methods=['POST'])
@@ -17,3 +17,16 @@ def parent_login():
         time = request.form['last_visited']
         history.addToHistory(email, url, time)
         return "\n\n\nWe added to history: " + email
+
+@app.route('/addSecure', methods=['POST'])
+def add_secure():
+    if request.method == 'POST':
+        url = request.form['url']
+        history.addToSecure(url)
+        urls = history.getFromSecure()
+        urls = map(lambda x: str(x[0]), urls)
+        return render_template("index.html", urls=urls)
+
+if __name__ == "__main__":
+    app.config['TEMPLATES_AUTO_RELOAD'] = True # So template reloads when data is changed
+    app.run(host='localhost', port=5000, debug=True)
