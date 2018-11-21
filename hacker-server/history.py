@@ -2,6 +2,7 @@ import sqlite3
 
 import datetime
 import decimal
+import users
 
 ################## Create Tables ######################
 
@@ -13,7 +14,8 @@ def createTables():
     q = """CREATE TABLE IF NOT EXISTS History (
     Email VARCHAR(255),
     Url TEXT UNIQUE,
-    LastVisited DATETIME
+    LastVisited DATETIME,
+    FOREIGN KEY (Email) REFERENCES Users(Email)
     );"""
     c.execute(q)
     # q = "DELETE from History"
@@ -21,9 +23,8 @@ def createTables():
     conn.commit()
     conn.close()
 
-createTables()
-
 def addToHistory(email, url, lastvisited):
+    users.create_users_table()
     createTables()
     s = round(float(lastvisited), 6) / 1000.0
     date = datetime.datetime.fromtimestamp(s).strftime('%Y-%m-%d %H:%M:%S.%f')
@@ -36,10 +37,12 @@ def addToHistory(email, url, lastvisited):
     conn.close()
 
 def bulk_add_to_history(email, urls, last_visited):
+    users.create_users_table()
     createTables()
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     userEmail = email.replace("\"", "")
+    users.add_user(userEmail)
     for i in range(len(urls)):
         q = """INSERT OR REPLACE INTO History
                Values (?, ?, ?)"""
