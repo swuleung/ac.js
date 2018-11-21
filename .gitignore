@@ -2,5 +2,8 @@
 # Ignore NetBeans Projects
 nbproject
 
-# why are u like this, i just want to ignore them
+# Ignore .pyc
 *.pyc
+
+# Ignore database
+data.db
