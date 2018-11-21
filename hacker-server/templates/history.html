@@ -3,22 +3,22 @@
 {% block title %} History {% endblock %}
 
 {% block contents %}
-<table class="table">
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th> User Email </th>
-            <th> Url </th>
-            <th> Last Visited Data/Time </th>
+            <th scope="col"> # </th>
+            <th scope="col"> Url </th>
+            <th scope="col"> Last Visited Data/Time </th>
         </tr>
     </thead>
     <tbody>
-            {% for history in data %}
-            <tr>
-            <td> {{history[0]}}</td>
-            <td> {{history[1]}}</td>
-            <td> {{history[2]}}</td>
-            </tr>
-            {% endfor %}
+        {% for history in history %}
+        <tr class="wrap-word">
+            <th scope="row" width="10%"> {{ loop.index }} </th>
+            <td width="65%"> {{ history[1] }}</td>
+            <td width="25%"> {{ history[2] }}</td>
+        </tr>
+        {% endfor %}
     </tbody>
 </table>
-{% endblock %} 
+{% endblock %}

