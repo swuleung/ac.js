@@ -7,3 +7,6 @@ nbproject
 
 # Ignore database
 data.db
+
+# Macs
+.DS_Store
