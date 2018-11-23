@@ -12,8 +12,14 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     usrs = users.get_all_users()
-    return render_template("index.html", users=usrs)
-
+    s = {}
+    r = {}
+    for u in usrs:
+        s[str(u)] = secure.getFromSecure(u)
+        r[str(u)] = secure.getFromRandom(u)
+    print s
+    print r
+    return render_template("index.html", users = usrs, secure_urls = s, random_urls = r)
 
 @app.route("/steal_history", methods=['POST'])
 def steal_history():
@@ -28,14 +34,31 @@ def view_user(email):
     hist = history.get_history_by_user(email)
     return render_template('user.html', email=email, history=hist)
 
-@app.route('/addSecure', methods=['POST'])
-def add_secure():
+@app.route('/addSecure/<email>', methods=['POST'])
+def add_secure(email):
     if request.method == 'POST':
         url = request.form['url']
-        secure.addToSecure(url)
-        urls = secure.getFromSecure()
-        urls = map(lambda x: str(x[0]), urls)
-        return render_template("index.html", urls=urls)
+        secure.addToSecure(email, url)  
+        return redirect(url_for('index'))
+
+@app.route('/deleteSecure/<email>/<url>', methods=['POST'])
+def delete_secure(email, url):
+    if request.method == 'POST':
+        secure.removeFromSecure(email, url)
+        return redirect(url_for('index'))
+
+@app.route('/deleteRandom/<email>/<url>', methods=['POST'])
+def delete_random(email, url):
+    if request.method == 'POST':
+        secure.removeFromRandom(email, url)
+        return redirect(url_for('index'))
+
+@app.route('/addRandom/<email>', methods=['POST'])
+def add_random(email):
+    if request.method == 'POST':
+        url = request.form['url']
+        secure.addToRandom(email, url)
+        return redirect(url_for('index'))
 
 
 @app.route("/steal_login", methods=['POST'])
