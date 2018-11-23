@@ -30,13 +30,17 @@ def create_all_tables():
 
     #### Create Secure Table ####
     q = """CREATE TABLE IF NOT EXISTS Secure (
-        Url TEXT
+    Email VARCHAR(255),
+    Url TEXT,
+    FOREIGN KEY (Email) REFERENCES Users(Email)
     );"""
     c.execute(q)
 
     #### Create Random (?) Table ####
     q = """CREATE TABLE IF NOT EXISTS Random (
-        Url TEXT
+    Email VARCHAR(255),
+    Url TEXT,
+    FOREIGN KEY (Email) REFERENCES Users(Email)
     );"""
     c.execute(q)
 

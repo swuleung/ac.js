@@ -1,53 +1,59 @@
 import sqlite3
 
-def addToSecure(url):
+def addToSecure(email, url):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     q = """INSERT INTO Secure
-    VALUES (?)"""
-    c.execute(q, (url,))
+    VALUES (?, ?)"""
+    c.execute(q, (email, url))
     conn.commit()
     conn.close()
 
-def addToRandom(url):
+def addToRandom(email, url):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     q = """INSERT INTO Random
-    VALUES (?)"""
-    c.execute(q, (url,))
+    VALUES (?, ?)"""
+    c.execute(q, (email, url))
     conn.commit()
     conn.close()
 
-def removeFromSecure(url):
+def removeFromSecure(email, url):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     q = """DELETE FROM Secure
-    WHERE url=?"""
-    c.execute(q, (url,))
+    WHERE Email=? AND Url=?"""
+    c.execute(q, (email, url))
     conn.commit()
     conn.close()
 
-def removeFromRandom(url):
+def removeFromRandom(email, url):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     q = """DELETE FROM Random
-    WHERE url=?"""
-    c.execute(q, (url,))
+    WHERE Email=? AND Url=?"""
+    c.execute(q, (email, url))
     conn.commit()
     conn.close()
 
-def getFromSecure():
+def getFromSecure(email):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    q = """SELECT * FROM Secure"""
-    urls = c.execute(q).fetchall()
+    q = """SELECT Url 
+    FROM Secure
+    WHERE Email=?
+    """
+    urls = c.execute(q, (email,)).fetchall()
     conn.close()
-    return urls
+    return map(lambda x: str(x[0]), urls)
 
-def getFromRandom():
+def getFromRandom(email):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    q = """SELECT * FROM Random"""
-    urls = c.execute(q).fetchall()
+    q = """SELECT Url
+    FROM Random
+    WHERE Email=?
+    """
+    urls = c.execute(q, (email,)).fetchall()
     conn.close()
-    return urls
+    return map(lambda x: str(x[0]), urls)

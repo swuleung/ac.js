@@ -1,27 +1,65 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Totally not Stealing</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
-        <h1> Totally Innocent Things are Happening </h1>
-        <form action="{{ url_for('add_secure') }}" method="POST">
+{% extends "base.html" %}
+
+{% block title %} Totally not Stealing {% endblock %}
+
+{% block contents %}
+    <h1> Totally Innocent Things are Happening </h1>
+    <h2> Users we have data of: </h2>
+    <ul>
+        {% for user in users %}
+        <li> <a href="/view_user/{{user}}">{{user}}</a>
+        <form action="{{ url_for('add_secure', email=user)}}" method="POST">
             <label for="url">Secure sites</label>
-            <input type="text" name="url" id="url">
+            <input type="text" name="url" id="url" placeholder="example.com">
             <input type="submit">
         </form>
-        {% for url in urls %}
-            <div>{{ url }}</div>
+        <table class="table table-sm table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Url</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for url in secure_urls[user] %}
+                <tr>
+                    <td>{{url}}</td>
+                    <td>
+                        <form action="{{ url_for('delete_secure', email=user, url=url)}}" method="POST">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <form action="{{ url_for('add_random', email=user)}}" method="POST">
+            <label for="url">Redirect sites</label>
+            <input type="text" name="url" id="url" placeholder="example.com">
+            <input type="submit">
+        </form>
+        <table class="table table-sm table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Url</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for url in random_urls[user] %}
+                    <tr>
+                        <td>{{url}}</td>
+                        <td>
+                            <form action="{{ url_for('delete_random', email=user, url=url)}}" method="POST">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        <hr>
+        </li>
         {% endfor %}
-
-        <h2> Users we have data of: </h2>
-        <ul>
-            {% for user in users %}
-            <li> <a href="/view_user/{{user}}">{{user}}</a> </li>
-            {% endfor %}
-        </ul>
-    </body>
-</html>
+    </ul>
+{% endblock %}
