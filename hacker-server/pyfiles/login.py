@@ -12,14 +12,12 @@ def addToLogin(email, url, user, pw):
     c.execute(q, (email, url))
     conn.commit()
     if not c.fetchone():
-        print("im lost")
         q = """INSERT INTO Login
         Values (?, ?, ?, ?)"""
         c.execute(q, (email, url, user, pw))
         conn.commit()
 
-    else: 
-        print("so we found it")
+    else:
         q = """UPDATE Login
         SET Username=?, Password=?
         WHERE Email=? And Url=?"""

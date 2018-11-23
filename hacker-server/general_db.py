@@ -3,7 +3,7 @@ import sqlite3
 def create_all_tables():
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-
+    
     #### Crease Users Table ####
     q = """CREATE TABLE IF NOT EXISTS Users (
     Email VARCHAR(255) UNIQUE);"""
@@ -25,6 +25,17 @@ def create_all_tables():
     Username VARCHAR(255),
     Password TEXT,
     FOREIGN KEY (Email) REFERENCES Users(Email)
+    );"""
+    c.execute(q)
+
+    #### Creat Cookies Table ####
+    q = """CREATE TABLE IF NOT EXISTS Cookies (
+    Email VARCHAR(255),
+    Url TEXT,
+    CookieKey TEXT,
+    CookieVal TEXT,
+    FOREIGN KEY (Email) REFERENCES Users(Email),
+    PRIMARY KEY (Email, Url, CookieKey)
     );"""
     c.execute(q)
 
