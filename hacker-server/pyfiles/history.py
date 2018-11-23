@@ -4,32 +4,6 @@ import datetime
 import decimal
 import users
 
-# when u cant let go of old code
-# def addToHistory(email, url, lastvisited):
-#     users.create_users_table()
-#     createTables()
-#     s = round(float(lastvisited), 6) / 1000.0
-#     date = datetime.datetime.fromtimestamp(s).strftime('%Y-%m-%d %H:%M:%S.%f')
-#     conn = sqlite3.connect("data.db")
-#     c = conn.cursor()
-#     q = """INSERT INTO History 
-#             Values (?, ?, ?)"""
-#     c.execute(q, (email.replace("\"", ""), url, date))
-#     conn.commit()
-#     conn.close()
-
-# def getHistory():
-#     conn = sqlite3.connect("data.db")
-#     c = conn.cursor()
-#     q = """SELECT * 
-#     FROM History"""
-#     data = c.execute(q).fetchall()
-#     conn.commit()
-#     conn.close()
-
-#     return data
-
-
 def bulk_add_to_history(email, urls, last_visited):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()

