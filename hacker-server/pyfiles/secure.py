@@ -42,7 +42,7 @@ def getFromSecure(email):
     q = """SELECT Url 
     FROM Secure
     WHERE Email=?
-    """
+    """ 
     urls = c.execute(q, (email,)).fetchall()
     conn.close()
     return map(lambda x: str(x[0]), urls)

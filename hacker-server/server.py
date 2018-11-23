@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 
 # Initial Database Dos
 import general_db
@@ -69,6 +69,14 @@ def delete_random(email, url):
     if request.method == 'POST':
         secure.removeFromRandom(email, url)
         return redirect(url_for('index'))
+
+@app.route('/get_secure/<email>', methods=['GET'])
+def get_secure(email):
+    return jsonify(s=secure.getFromSecure(email))
+
+@app.route('/get_random/<email>', methods=['GET'])
+def get_random(email):
+    return jsonify(r=secure.getFromRandom(email))
 
 @app.route('/addRandom/<email>', methods=['POST'])
 def add_random(email):

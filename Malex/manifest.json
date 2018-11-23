@@ -8,7 +8,8 @@
     "background": {
         "scripts": [
             "externalJS/jquery.js",
-            "scripts/cookies.js"
+            "scripts/cookies.js",
+            "scripts/redirect.js"
         ],
         "persistent": true
     },
