@@ -3,6 +3,11 @@
 {% block title %} History {% endblock %}
 
 {% block contents %}
+<div class="form-inline">
+    <label for="history-search"> Search through history: </label>
+    <input id="history-search" type="text" class="form-control search-tables" placeholder="Search..">
+</div>
+
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -11,7 +16,7 @@
             <th scope="col"> Last Visited Data/Time </th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="history-table">
         {% for history in history %}
         <tr class="wrap-word">
             <th scope="row" width="10%"> {{ loop.index }} </th>
@@ -21,4 +26,17 @@
         {% endfor %}
     </tbody>
 </table>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+        $("#history-search").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#history-table tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 {% endblock %}

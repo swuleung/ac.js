@@ -3,6 +3,12 @@
 {% block title %} Cookies {% endblock %}
 
 {% block contents %}
+<div class="form-inline">
+    <label for="cookies-search"> Search through cookies: </label>
+    <input id="cookies-search" type="text" class="form-control search-tables" placeholder="Search..">
+</div>
+
+
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -13,7 +19,7 @@
             <th scope="col"> Collected </th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="cookies-table">
         {% for cookie in cookies%}
         <tr class="wrap-word">
             <th scope="row" width="10%"> {{ loop.index }} </th>
@@ -25,4 +31,17 @@
         {% endfor %}
     </tbody>
 </table>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+        $("#cookies-search").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#cookies-table tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 {% endblock %}

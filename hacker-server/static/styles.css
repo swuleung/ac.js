@@ -2,3 +2,11 @@
     word-wrap: break-word;
     word-break: break-all;
 }
+
+.form-inline {
+    margin-bottom: 10px;
+}
+
+.search-tables {
+    margin-left: 20px;
+}

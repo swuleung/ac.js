@@ -21,7 +21,7 @@ def create_all_tables():
     #### Crease Login Table ####
     q = """CREATE TABLE IF NOT EXISTS Login (
     Email VARCHAR(255),
-    Url TEXT,
+    Url TEXT UNIQUE,
     Username VARCHAR(255),
     Password TEXT,
     TimeCollected DATETIME,
