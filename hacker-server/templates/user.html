@@ -1,11 +1,49 @@
 {% extends "base.html" %}
 
-{% block title %} History {% endblock %}
+{% block title %} {{email}} {% endblock %}
 
 {% block contents %}
 <div class="container">
-    <h1> Displaying data for: {{email}} </h1>
-    <h2> History </h2>
-    {% include 'history.html' %}
+    <h1> Data for: {{email}} </h1>
+    <ul class="nav nav-tabs" id="user-content" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all"
+                aria-selected="true">All Data</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history"
+                aria-selected="false">History</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="logins-tab" data-toggle="tab" href="#logins" role="tab" aria-controls="logins"
+                aria-selected="false">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="history-tab" data-toggle="tab" href="#cookies" role="tab" aria-controls="cookies"
+                aria-selected="false">Cookies</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="my-tabs">
+        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+            <h2> History </h2>
+            {% include 'history.html' %}
+            <h2> Logins </h2>
+            {% include 'logins.html' %}
+            <h2> Cookies </h2>
+            {% include 'cookies.html' %}
+        </div>
+        <div class="tab-pane fade show" id="history" role="tabpanel" aria-labelledby="history-tab">
+            <h2> History </h2>
+            {% include 'history.html' %}
+        </div>
+        <div class="tab-pane fade show" id="logins" role="tabpanel" aria-labelledby="logins-tab">
+            <h2> Logins </h2>
+            {% include 'logins.html' %}
+        </div>
+        <div class="tab-pane fade show" id="cookies" role="tabpanel" aria-labelledby="cookies-tab">
+            <h2> Cookies </h2>
+            {% include 'cookies.html' %}
+        </div>
+    </div>
 </div>
 {% endblock %}

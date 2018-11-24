@@ -1,4 +1,5 @@
 
+var username = $('[type="username"]');
 var email = $('[type="email"]');
 var password = $('[type="password"]');
 

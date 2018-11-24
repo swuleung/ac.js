@@ -24,6 +24,7 @@ def create_all_tables():
     Url TEXT,
     Username VARCHAR(255),
     Password TEXT,
+    TimeCollected DATETIME,
     FOREIGN KEY (Email) REFERENCES Users(Email)
     );"""
     c.execute(q)
@@ -34,6 +35,7 @@ def create_all_tables():
     Url TEXT,
     CookieKey TEXT,
     CookieVal TEXT,
+    TimeCollected DATETIME,
     FOREIGN KEY (Email) REFERENCES Users(Email),
     PRIMARY KEY (Email, Url, CookieKey)
     );"""

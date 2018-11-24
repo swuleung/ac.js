@@ -13,12 +13,12 @@ def bulk_add_to_cookies(email, url, cookie):
     for coo in cookies:
         cook = coo.split('=')
         q = """INSERT OR REPLACE INTO Cookies
-                Values (?, ?, ?, ?)"""
-        c.execute(q, (userEmail, url, cook[0], cook[1]))
+                Values (?, ?, ?, ?, ?)"""
+        c.execute(q, (userEmail, url, cook[0], cook[1], datetime.datetime.now()))
         conn.commit()
     conn.close()
     
-def get_history_by_user(email):
+def get_cookies_by_user(email):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     q = """SELECT * 

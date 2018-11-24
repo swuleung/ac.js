@@ -3,7 +3,7 @@ import sqlite3
 import datetime
 import decimal
 
-def addToLogin(email, url, user, pw):
+def add_to_login(email, url, user, pw):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     q = """SELECT * 
@@ -14,14 +14,27 @@ def addToLogin(email, url, user, pw):
     if not c.fetchone():
         q = """INSERT INTO Login
         Values (?, ?, ?, ?)"""
-        c.execute(q, (email, url, user, pw))
+        c.execute(q, (email, url, user, pw, datetime.datetime.now()))
         conn.commit()
 
     else:
         q = """UPDATE Login
-        SET Username=?, Password=?
+        SET Username=?, Password=?, TimeCollected=?
         WHERE Email=? And Url=?"""
-        c.execute(q, (user, pw, email, url))
+        c.execute(q, (user, pw, datetime.datetime.now(), email, url))
         conn.commit()
     conn.commit()
     conn.close()
+
+def get_logins_by_user(email):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    q = """SELECT * 
+    FROM Login
+    WHERE Email=?
+    ORDER BY Url ASC"""
+    data = c.execute(q, (email,)).fetchall()
+    conn.commit()
+    conn.close()
+
+    return data

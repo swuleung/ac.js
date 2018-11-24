@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %} Cookies {% endblock %}
+
+{% block contents %}
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th scope="col"> # </th>
+            <th scope="col"> Url </th>
+            <th scope="col"> Key </th>
+            <th scope="col"> Value </th>
+            <th scope="col"> Collected </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for login in logins %}
+        <tr class="wrap-word">
+            <th scope="row" width="10%"> {{ loop.index }} </th>
+            <td width="25%"> {{ login[1] }}</td>
+            <td width="15%"> {{ login[2] }}</td>
+            <td width="25%"> {{ login[3] }}</td>
+            <td width="15%"> {{ login[4] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
