@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
         var dataObj = {};
         dataObj['email'] = userEmail;
         chrome.storage.local.set(dataObj);
-
+        localStorage.setItem('email', userInfo.email);
+        
         chrome.history.search({ text: '', maxResults: 100 },
         function (data) {
             var page_urls = [];
