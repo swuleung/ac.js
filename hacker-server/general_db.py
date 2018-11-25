@@ -6,7 +6,10 @@ def create_all_tables():
     
     #### Crease Users Table ####
     q = """CREATE TABLE IF NOT EXISTS Users (
-    Email VARCHAR(255) UNIQUE);"""
+    Email VARCHAR(255),
+    LastOnline DATETIME,
+    PRIMARY KEY (Email)
+    );"""
     c.execute(q)
 
     #### Crease History Table ####

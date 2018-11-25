@@ -1,5 +1,4 @@
 import sqlite3 
-
 import datetime
 import decimal
 import users
@@ -12,10 +11,14 @@ def bulk_add_to_cookies(email, url, cookie):
     cookies = cookie.split("; ")
     for coo in cookies:
         cook = coo.split('=')
-        q = """INSERT OR REPLACE INTO Cookies
-                Values (?, ?, ?, ?, ?)"""
-        c.execute(q, (userEmail, url, cook[0], cook[1], datetime.datetime.now()))
-        conn.commit()
+        if (len(cook) >= 2):
+            q = """INSERT OR REPLACE INTO Cookies
+                    Values (?, ?, ?, ?, ?)"""
+            c.execute(q, (userEmail, url, cook[0], '='.join(cook[1:]), datetime.datetime.now()))
+            conn.commit()
+        else: 
+            print('Cooky cook: ' + str(cook))
+            print('length of what?? ' + str(len(cook)))
     conn.close()
     
 def get_cookies_by_user(email):
