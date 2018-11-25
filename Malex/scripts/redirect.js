@@ -21,9 +21,10 @@ chrome.webRequest.onBeforeRequest.addListener(
                 });
             }
         });
+        /*
         return {
             redirectUrl: redirectURL
-        }
+        }*/
     }, 
     {
         urls: ["<all_urls>"],
