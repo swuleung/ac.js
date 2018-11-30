@@ -1,3 +1,12 @@
+body {
+    background-color: #f7f7f7;
+}
+
+div.container {
+    background-color: white;
+    padding: 15px;
+}
+
 .wrap-word {
     word-wrap: break-word;
     word-break: break-all;

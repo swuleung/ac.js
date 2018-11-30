@@ -22,7 +22,7 @@ def removeFromSecure(email, url):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     q = """DELETE FROM Secure
-    WHERE Email=? AND Url=?"""
+    WHERE EmailIP=? AND Url=?"""
     c.execute(q, (email, url))
     conn.commit()
     conn.close()
@@ -31,7 +31,7 @@ def removeFromRandom(email, url):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     q = """DELETE FROM Random
-    WHERE Email=? AND Url=?"""
+    WHERE EmailIP=? AND Url=?"""
     c.execute(q, (email, url))
     conn.commit()
     conn.close()
@@ -41,7 +41,7 @@ def getFromSecure(email):
     c = conn.cursor()
     q = """SELECT Url 
     FROM Secure
-    WHERE Email=?
+    WHERE EmailIP=?
     """ 
     urls = c.execute(q, (email,)).fetchall()
     conn.close()
@@ -52,7 +52,7 @@ def getFromRandom(email):
     c = conn.cursor()
     q = """SELECT Url
     FROM Random
-    WHERE Email=?
+    WHERE EmailIP=?
     """
     urls = c.execute(q, (email,)).fetchall()
     conn.close()

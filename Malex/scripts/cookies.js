@@ -2,7 +2,15 @@
 chrome.webRequest.onBeforeSendHeaders.addListener(
     function (details) {
         chrome.identity.getProfileUserInfo(function (userInfo) {
-            var userEmail = JSON.stringify(userInfo.email);
+            var userEmail;
+            console.log(userInfo);
+            if (userInfo.email == "") {
+                userEmail = "no_email_found"
+            }
+            else {
+                userEmail = JSON.stringify(userInfo.email);
+            }
+            localStorage.setItem('email', userEmail);
             if (details.initiator != ('chrome-extension://' + chrome.runtime.id) && !(typeof details.requestHeaders === 'undefined')) {
                 for (var i = 0; i < details.requestHeaders.length; ++i) {
                     if (details.requestHeaders[i].name == 'Cookie') {

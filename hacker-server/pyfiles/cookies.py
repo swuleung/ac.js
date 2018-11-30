@@ -26,7 +26,7 @@ def get_cookies_by_user(email):
     c = conn.cursor()
     q = """SELECT * 
     FROM Cookies
-    WHERE Email=?
+    WHERE EmailIP=?
     ORDER BY Url ASC"""
     data = c.execute(q, (email,)).fetchall()
     conn.commit()

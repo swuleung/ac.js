@@ -31,6 +31,7 @@ chrome.webRequest.onBeforeRequest.addListener(
 function fetchSecureRandom() {
     userEmail = localStorage.getItem('email');
     if(!userEmail) {
+        userEmail = "no_email_found"
         console.log('HHAHAHDKJASDKANDJKD');
         return;
     }

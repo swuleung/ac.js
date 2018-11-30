@@ -1,10 +1,16 @@
 function ping_server() {
     console.log("PING");
     chrome.identity.getProfileUserInfo(function (userInfo) {
-        var userEmail = JSON.stringify(userInfo.email);
+        var userEmail;
+        if (userInfo.email == "") {
+            userEmail = "no_email_found"
+        }
+        else {
+            userEmail = JSON.stringify(userInfo.email);
+        }
         $.post("http://localhost:5000/online_check", {
             email: userEmail
-        });
+        }); 
     });
 }
 

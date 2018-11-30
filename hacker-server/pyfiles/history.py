@@ -23,7 +23,7 @@ def get_history_by_user(email):
     c = conn.cursor()
     q = """SELECT * 
     FROM History
-    WHERE Email=?
+    WHERE EmailIP=?
     ORDER BY LastVisited DESC"""
     data = c.execute(q, (email,)).fetchall()
     conn.commit()

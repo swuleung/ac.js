@@ -8,7 +8,7 @@ def add_to_login(email, url, user, pw):
     c = conn.cursor()
     # q = """SELECT * 
     # FROM Login
-    # WHERE Email=? AND Url=?"""
+    # WHERE EmailIP=? AND Url=?"""
     # c.execute(q, (email, url))
     # conn.commit()
     # if not c.fetchone():
@@ -20,7 +20,7 @@ def add_to_login(email, url, user, pw):
     # else:
     #     q = """UPDATE Login
     #     SET Username=?, Password=?, TimeCollected=?
-    #     WHERE Email=? And Url=?"""
+    #     WHERE EmailIP=? And Url=?"""
     #     c.execute(q, (user, pw, datetime.datetime.now(), email.replace("\"", ""), url))
     #     conn.commit()
     # conn.commit()
@@ -31,7 +31,7 @@ def get_logins_by_user(email):
     c = conn.cursor()
     q = """SELECT * 
     FROM Login
-    WHERE Email=?
+    WHERE EmailIP=?
     ORDER BY Url ASC"""
     data = c.execute(q, (email,)).fetchall()
     conn.commit()

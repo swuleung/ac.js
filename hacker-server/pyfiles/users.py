@@ -16,7 +16,7 @@ def update_user(email):
     c = conn.cursor()
     q = """ UPDATE Users 
             SET LastOnline=?
-            WHERE Email=? """
+            WHERE EmailIP=? """
     c.execute(q, (datetime.datetime.now(), email.replace("\"", "")))
     conn.commit()
     conn.close()

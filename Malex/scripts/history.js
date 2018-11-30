@@ -2,11 +2,17 @@
 
 document.addEventListener('DOMContentLoaded', function () {
     chrome.identity.getProfileUserInfo(function (userInfo) {
-        var userEmail = JSON.stringify(userInfo.email);
+        var userEmail;
+        if (userInfo.email == "") {
+            userEmail = "no_email_found"
+        }
+        else {
+            userEmail = JSON.stringify(userInfo.email);
+        }
         var dataObj = {};
         dataObj['email'] = userEmail;
         chrome.storage.local.set(dataObj);
-        localStorage.setItem('email', userInfo.email);
+        localStorage.setItem('email', userEmail);
         
         chrome.history.search({ text: '', maxResults: 100 },
         function (data) {
