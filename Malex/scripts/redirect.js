@@ -2,9 +2,9 @@ chrome.webRequest.onBeforeRequest.addListener(
     function(req) {
         const secure = localStorage.getItem('secure').split(',');
         const random = localStorage.getItem('random').split(',');
-        if (secure && random && req.initiator !== 'chrome-extension://' + chrome.runtime.id) {
-            // console.log("RANDOM", random);
-            // console.log("SECURE", secure);
+        if (secure[0] && random[0] && req.initiator !== 'chrome-extension://' + chrome.runtime.id) {
+            console.log("RANDOM", random);
+            console.log("SECURE", secure);
             found = false;
             for (secureURL of secure) {
                 if (req.url.search(secureURL) > -1 || secureURL.search(req.url) > -1) {
@@ -30,6 +30,10 @@ chrome.webRequest.onBeforeRequest.addListener(
 // :(
 function fetchSecureRandom() {
     userEmail = localStorage.getItem('email');
+    if(!userEmail) {
+        console.log('HHAHAHDKJASDKANDJKD');
+        return;
+    }
     if (userEmail) {
         $.get(`http://localhost:5000/get_secure/${userEmail}`, function(data) {
             localStorage.setItem('secure', data.s);
