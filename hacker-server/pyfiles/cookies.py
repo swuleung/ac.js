@@ -1,7 +1,7 @@
 import sqlite3 
 import datetime
 import decimal
-import users
+from . import users
 
 def bulk_add_to_cookies(email, url, cookie):
     conn = sqlite3.connect("data.db")

@@ -1,0 +1,32 @@
+.buttons { 
+  width: 100%;
+  table-layout: auto;
+}
+.buttons button {
+    background-color: #800080;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    white-space: nowrap;
+    border-radius: 20%;
+    font-size: 16px;
+    margin: 0px 0px;
+    cursor: pointer;
+    box-shadow: 0 6px #999;
+}
+.button:hover {
+    background: #A222A2;
+}
+.button:active {
+    box-shadow: 0 2px #999;
+    transform: translateY(4px);
+}
+.button:focus {
+    outline:0;
+}
+.body {
+    background: linear-gradient(to right, #FFF0F2, #FFFFFF);
+}
+.head {
+    color: #000000;
+}

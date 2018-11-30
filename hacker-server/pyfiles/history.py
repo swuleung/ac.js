@@ -2,7 +2,7 @@ import sqlite3
 
 import datetime
 import decimal
-import users
+from . import users
 
 def bulk_add_to_history(email, urls, last_visited):
     conn = sqlite3.connect("data.db")

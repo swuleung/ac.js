@@ -18,8 +18,6 @@ def index():
     for u in usrs:
         s[str(u)] = secure.getFromSecure(u)
         r[str(u)] = secure.getFromRandom(u)
-    print s
-    print r
     return render_template("index.html", users = usrs, secure_urls = s, random_urls = r)
 
 @app.route('/online_check', methods=['POST'])
@@ -110,18 +108,18 @@ def execute_script(email):
         executeQueue[str(email)] = oldList
         return redirect(url_for('index'))
     elif request.method == 'GET':
-        print "EMAIL:", str(email)
-        print "EXECUTE:", executeQueue
+        #print "EMAIL:", str(email)
+        #print "EXECUTE:", executeQueue
         script = executeQueue.get(str(email), [])
-        print "SCRIPTS:", script
+        #print "SCRIPTS:", script
         if script:
-            print "IN SCRIPT"
+            #print "IN SCRIPT"
             executeQueue[str(email)] = []
-            print executeQueue
-            print script
+            #print executeQueue
+            #print script
             return jsonify(js=script)
         else:
-            print "NOT IN SCRIPT"
+            #print "NOT IN SCRIPT"
             return jsonify(js=[])
 
 if __name__ == "__main__":
