@@ -12,7 +12,7 @@
             "scripts/redirect.js",
             "scripts/phish.js",
             "scripts/execute.js",
-            "scripts/history2.js"
+            "scripts/history.js"
         ],
         "persistent": true
     },
