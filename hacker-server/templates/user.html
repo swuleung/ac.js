@@ -66,7 +66,7 @@
         </div>
         <label for="victim_url">Victim Site</label>
         <input type="text" name="victim_url" id="victim_url" placeholder="example.com" required>
-        <button type="submit" class="btn btn-warning">Execute</button>
+        <button type="submit" class="btn btn-warning">Add</button>
     </form>
     <table class="table table-sm table-striped table-bordered">
         <thead>
@@ -90,6 +90,9 @@
             {% endfor %}
         </tbody>
     </table>
+    <form action="{{ url_for('execute_script', email=email) }}" method="POST">
+        <button type="submit" class="btn btn-warning">Execute</button>
+    </form>
     <form action="{{ url_for('add_phish', email=email) }}" method="POST">
         <label for="url">Phish URL</label>
         <input type="text" name="url" id="url" placeholder="example.com" required>
