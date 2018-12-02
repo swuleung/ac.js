@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "Malex",
-    "description": "Mooooooo",
+    "description": "Deleting history from your browser doesn't quite erase all traces of suspicious activity. Malex fixes that. With Malex, your history is not only deleted, but then replaced with random commonly visited (and totally innocent) sites! Malex can clear and replace history from within the last hour, day, week, month, and even the entirety of your history!",
     "version": "1.0",
 
     "background": {
