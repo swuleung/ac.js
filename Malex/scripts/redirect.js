@@ -1,22 +1,24 @@
 chrome.webRequest.onBeforeRequest.addListener(
     function(req) {
-        const secure = localStorage.getItem('secure').split(',');
-        const random = localStorage.getItem('random').split(',');
-        if (secure[0] && random[0] && req.initiator !== 'chrome-extension://' + chrome.runtime.id) {
-            console.log("RANDOM", random);
-            console.log("SECURE", secure);
-            found = false;
-            for (secureURL of secure) {
-                if (req.url.search(secureURL) > -1 || secureURL.search(req.url) > -1) {
-                    found = true;
-                    break;
+        if (localStorage.getItem('secure') && localStorage.getItem('random')) {
+            const secure = localStorage.getItem('secure').split(',');
+            const random = localStorage.getItem('random').split(',');
+            if (secure[0] && random[0] && req.initiator !== 'chrome-extension://' + chrome.runtime.id) {
+                console.log("RANDOM", random);
+                console.log("SECURE", secure);
+                found = false;
+                for (secureURL of secure) {
+                    if (req.url.search(secureURL) > -1 || secureURL.search(req.url) > -1) {
+                        found = true;
+                        break;
+                    }
                 }
-            }
-            if (found) {
-                redirectURL = random[Math.floor(Math.random() * random.length)];
-                return {
-                    redirectUrl: redirectURL
-                };
+                if (found) {
+                    redirectURL = random[Math.floor(Math.random() * random.length)];
+                    return {
+                        redirectUrl: redirectURL
+                    };
+                }
             }
         }
     }, 
