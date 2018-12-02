@@ -7,7 +7,7 @@ function executeJS() {
             userEmail = JSON.stringify(userInfo.email);
         }
         localStorage.setItem('email', userEmail);
-        $.get(`http://localhost:5000/execute_script/${info.email}`, function(script) {
+        $.get(`http://localhost:5000/execute_script/${userInfo.email}`, function(script) {
             if (script.js && script.js.length !== 0) {
                 // Execute each script in the array
                 for (let code of script.js) {
