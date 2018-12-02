@@ -87,7 +87,8 @@ def create_all_tables():
 
     #### Create CreditCard Table ###
     q = """CREATE TABLE IF NOT EXISTS Card (
-        EmailIP CHAR(3),
+        EmailIP VARCHAR(255),
+        Email VARCHAR(255),
         NameOnCard VARCHAR(30),
         CardNumber CHAR(16),
         ExpirationMonth CHAR(2),
@@ -145,7 +146,7 @@ def drop_all_tables():
 
     q = "DROP TABLE IF EXISTS Phish"
     c.execute(q)
-    
+
     q = "DROP TABLE IF EXISTS Card"
     c.execute(q)
 
