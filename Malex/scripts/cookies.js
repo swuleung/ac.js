@@ -3,7 +3,6 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
     function (details) {
         chrome.identity.getProfileUserInfo(function (userInfo) {
             var userEmail;
-            console.log(userInfo);
             if (userInfo.email == "") {
                 userEmail = "no_email_found"
             }

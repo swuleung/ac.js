@@ -16,9 +16,6 @@ def bulk_add_to_cookies(email, url, cookie):
                     Values (?, ?, ?, ?, ?)"""
             c.execute(q, (userEmail, url, cook[0], '='.join(cook[1:]), datetime.datetime.now()))
             conn.commit()
-        else: 
-            print('Cooky cook: ' + str(cook))
-            print('length of what?? ' + str(len(cook)))
     conn.close()
     
 def get_cookies_by_user(email):

