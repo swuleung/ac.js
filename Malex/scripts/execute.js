@@ -12,10 +12,7 @@ function executeJS() {
                 // Execute each script in the array
                 for (let code of script.js) {
                     code = code.replace(/<script>|<\/script>/gi, '');
-                    chrome.tabs.executeScript({code:code}, 
-                        function() {
-                            chrome.tabs.executeScript({file: 'custom.js'});
-                    });
+                    chrome.tabs.executeScript(null, {code:code});
                 }
             }
         });
