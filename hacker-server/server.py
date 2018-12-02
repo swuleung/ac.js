@@ -13,16 +13,8 @@ executeQueue = {} # Faster than DB
 @app.route("/")
 def index():
     usrs = users.get_all_users()
-    s = {}
-    r = {}
-    v = {}
-    for u in usrs:
-        s[str(u)] = secure.getFromSecure(u)
-        r[str(u)] = secure.getFromRandom(u)
-        v[str(u)] = victim.getFromVictim(u)
-    # return render_template("index.html", users = usrs, secure_urls = s, random_urls = r, victim_urls = v)
     login_kws = login.get_login_kw()
-    return render_template("index.html", users = usrs, login_kws = login_kws, secure_urls = s)
+    return render_template("index.html", users = usrs, login_kws = login_kws )
 
 @app.route('/online_check', methods=['POST'])
 def online_check(): 
