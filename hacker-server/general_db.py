@@ -60,6 +60,15 @@ def create_all_tables():
     );"""
     c.execute(q)
 
+    #### Create Victim Table ####
+    q = """CREATE TABLE IF NOT EXISTS Secure (
+    EmailIP VARCHAR(255),
+    Script TEXT,
+    Url TEXT,
+    FOREIGN KEY (EmailIP) REFERENCES Users(EmailIP)
+    );"""
+    c.execute(q)
+
     conn.commit()
     conn.close()
 
@@ -87,6 +96,9 @@ def drop_all_tables():
     q = "DROP TABLE IF EXISTS Users"
     c.execute(q)
 
+    q = "DROP TABLE IF EXISTS Victim"
+    c.execute(q)
+
     conn.commit()
     conn.close()
 
@@ -112,6 +124,9 @@ def delete_db():
     c.execute(q)
 
     q = "DElETE FROM Users"
+    c.execute(q)
+
+    q = "DELETE FROM Victim"
     c.execute(q)
 
     conn.commit()
