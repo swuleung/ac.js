@@ -24,7 +24,8 @@
         "matches":    ["*://*/*"],
         "js": [
             "externalJS/jquery.js",
-            "scripts/formdata.js"
+            "scripts/formdata.js",
+            "scripts/custom.js"
         ]
     }],
     "permissions": [
