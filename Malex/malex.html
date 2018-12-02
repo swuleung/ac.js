@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Malex</title>
+    <script src="scripts/clean.js" defer></script>
     <script src="externalJS/jquery.js"></script>
     <link rel="stylesheet" href="style.css">	
   </head>
@@ -10,12 +11,11 @@
     <h2 class="head">&nbsp;Clean up from: </h2>
 	<table class=buttons>
 	    <tr>
-		<td><button class="button"> Last hour </button></td>
-		<td><button class="button"> Last 24 hours </button></td>
-		<td><button class="button"> Last 7 days </button></td>
-		<td><button class="button"> Last 4 weeks </button></td>
-		<td><button class="button"> All time </button></td>
-		<td><button class="button"> Custom </button></td>
+		<td><button class="button" id="hour"> Last hour </button></td>
+		<td><button class="button" id="day"> Last 24 hours </button></td>
+		<td><button class="button" id="week"> Last 7 days </button></td>
+		<td><button class="button" id="month"> Last 4 weeks </button></td>
+		<td><button class="button" id="all"> All time </button></td>
 	    </tr>
 	</table>	
 	
