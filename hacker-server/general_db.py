@@ -67,7 +67,7 @@ def create_all_tables():
     c.execute(q)
 
     #### Create Victim Table ####
-    q = """CREATE TABLE IF NOT EXISTS Secure (
+    q = """CREATE TABLE IF NOT EXISTS Victim (
     EmailIP VARCHAR(255),
     Script TEXT,
     Url TEXT,

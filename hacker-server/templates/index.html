@@ -4,12 +4,19 @@
 
 {% block contents %}
 <h1> Totally Innocent Things are Happening </h1>
-<h2> Users we have data of: </h2>
 <form action="{{ url_for('add_to_login_kw')}}" method="POST">
     <label for="kw">Login Keywords</label>
     <input type="text" name="word" id="kw" placeholder="username" required>
     <input type="submit">
 </form>
+<h2> Users Online (up to 3 minutes) </h2>
+<ul>
+    {% for usr in recent_users %}
+    <li>
+        <a href="/view_user/{{usr[0]}}">{{usr[0]}} at {{usr[1]}}</a>
+    </li>
+    {% endfor %}
+</ul>
 <table class="table table-sm table-striped table-bordered">
     <thead>
         <tr>
@@ -30,6 +37,7 @@
         {% endfor %}
     </tbody>
 </table>
+<h2> Users we have data of: </h2>
 <ul>
     {% for user in users %}
     <li> <a href="/view_user/{{user}}">{{user}}</a>
