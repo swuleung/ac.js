@@ -1089,7 +1089,7 @@ window.onload = function() {
 /************************ALL***********************/
 
     document.querySelector('#all').addEventListener('click', e => {
-      var day = function () { 
+      var all = function () { 
            var i = 0;
 	   while (i < 200) {
 	         chrome.history.addUrl({url : "https://" + Col0[Math.floor(Math.random() * 500)]});
