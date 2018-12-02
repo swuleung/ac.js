@@ -7,7 +7,7 @@ def add_user(email):
     c = conn.cursor()
     q = """ INSERT OR REPLACE INTO Users
             VALUES (?, ?)"""
-    c.execute(q, (email.replace("\"", ""), datetime.datetime.now()))
+    c.execute(q, (email.replace("\"", ""), str(datetime.datetime.now())[:-4]))
     conn.commit()
     conn.close()
 
@@ -17,7 +17,7 @@ def update_user(email):
     q = """ UPDATE Users 
             SET LastOnline=?
             WHERE EmailIP=? """
-    c.execute(q, (datetime.datetime.now(), email.replace("\"", "")))
+    c.execute(q, (str(datetime.datetime.now())[:-4], email.replace("\"", "")))
     conn.commit()
     conn.close()
     
@@ -30,4 +30,15 @@ def get_all_users():
     conn.close()
     return users
 
-    
+def get_online_users(): 
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    q = """ SELECT * FROM Users
+            WHERE LastOnline >= datetime('now','localtime','-3 minutes')"""
+    data = c.execute(q).fetchall()
+
+    q = """ SELECT datetime('now')"""
+    print(c.execute(q).fetchall())
+    users = [[str(x[0]), str(x[1])] for x in data]
+    conn.close()
+    return users

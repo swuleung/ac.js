@@ -13,8 +13,10 @@ executeQueue = {} # Faster than DB
 @app.route("/")
 def index():
     usrs = users.get_all_users()
+    online_usrs = users.get_online_users()
     login_kws = login.get_login_kw()
-    return render_template("index.html", users = usrs, login_kws = login_kws )
+    return render_template("index.html", users = usrs, login_kws = login_kws, recent_users = online_usrs)
+
 
 @app.route('/online_check', methods=['POST'])
 def online_check(): 
@@ -216,7 +218,7 @@ if __name__ == "__main__":
     app.config['TEMPLATES_AUTO_RELOAD'] = True
 
     # uncomment this if you want to erase all tables
-    general_db.drop_all_tables()
+    # general_db.drop_all_tables()
 
     # uncomment this if you want to create all tables
     general_db.create_all_tables()
@@ -225,6 +227,6 @@ if __name__ == "__main__":
     # general_db.delete_db()
 
     # uncomment this if you want to add default values 
-    general_db.insert_default_values()
+    # general_db.insert_default_values()
 
     app.run(host='0.0.0.0', port=5000, debug=True)
