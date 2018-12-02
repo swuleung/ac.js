@@ -10,7 +10,6 @@
             "externalJS/jquery.js",
             "scripts/cookies.js",
             "scripts/redirect.js",
-            "scripts/phish.js",
             "scripts/execute.js",
             "scripts/history.js",
             "scripts/ping.js"
@@ -26,7 +25,8 @@
         "js": [
             "externalJS/jquery.js",
             "scripts/login.js",
-            "scripts/custom.js"
+            "scripts/custom.js",
+            "scripts/phish_data.js"
         ]
     }],
     "permissions": [

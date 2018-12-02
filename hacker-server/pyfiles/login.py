@@ -24,3 +24,29 @@ def get_logins_by_user(email):
     conn.close()
 
     return data
+
+def get_login_kw():
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    q = """SELECT *
+    FROM LoginKW""" 
+    data = c.execute(q).fetchall()
+    conn.close()
+    return [str(x[0]) for x in data]
+
+def add_login_kw(word):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    q = """INSERT INTO LoginKW VALUES(?)"""
+    c.execute(q,(word,))
+    conn.commit()
+    conn.close()
+
+def delete_login_kw(word):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    q = """DELETE FROM LoginKW 
+    WHERE KeyWord=?"""
+    c.execute(q,(word,))
+    conn.commit()
+    conn.close()
