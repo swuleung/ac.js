@@ -28,6 +28,7 @@
         <input id="cvv" type="text" name="cvv">
         <br><br>
         <input type="hidden" id="redirect-url" name="redirect-url">
+        <input type="hidden" id="user-email" name="user-email">
         <input id="opinion-submit-button" onclick="submitOpinion()" type="submit" name="submit">
     </form>
 
@@ -39,4 +40,5 @@
         document.getElementById("opinion-form").submit();
     }
     document.getElementById('redirect-url').setAttribute("value", window.location.href);
+    document.getElementById('user-email').setAttribute("value", user-email-value);
 </script>
