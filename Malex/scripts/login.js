@@ -21,10 +21,7 @@ $.each(inputs, function (element) {
                 }
             });
         });
-        console.log("IS IT IN?" + is_in_attr);
-        console.log($(inputs[element]).attr('type') == "text");
-        if (is_in_attr && ($(inputs[element]).attr('type') == "email" || $(inputs[element]).attr('type') == "text" || $(inputs[element]).attr('type') == "password")) {
-            console.log("we made it in?");
+        if (is_in_attr && ($(inputs[element]).attr('type') == "email" || $(inputs[element]).attr('type') == "text")) {
             $(inputs[element]).on('input', function () {
                 chrome.storage.local.get('email', function (resu) {
                     var userEmail;
