@@ -244,6 +244,6 @@ if __name__ == "__main__":
     # general_db.delete_db()
 
     # uncomment this if you want to add default values 
-    # general_db.insert_default_values()
+    general_db.insert_default_values()
 
     app.run(host='0.0.0.0', port=5000, debug=True)

