@@ -41,6 +41,8 @@ def view_user(email):
 @app.route('/addSecure/<email>', methods=['POST'])
 def add_secure(email):
     if request.method == 'POST':
+        if email=="no_email_found":
+        	email = request.remote_addr
         url = request.form['url']
         secure.addToSecure(email, url)  
         return redirect(url_for('view_user', email=email))
@@ -48,30 +50,40 @@ def add_secure(email):
 @app.route('/deleteSecure/<email>/<url>', methods=['POST'])
 def delete_secure(email, url):
     if request.method == 'POST':
-        secure.removeFromSecure(email, url)
-        return redirect(url_for('view_user', email=email))
+		if email=="no_email_found":
+			email = request.remote_addr
+		secure.removeFromSecure(email, url)
+		return redirect(url_for('view_user', email=email))
 
 @app.route('/get_secure/<email>', methods=['GET'])
 def get_secure(email):
-    return jsonify(s=secure.getFromSecure(email))
+	if email=="no_email_found":
+		email = request.remote_addr
+	return jsonify(s=secure.getFromSecure(email))
 
 ########### RANDOM ###########
 @app.route('/addRandom/<email>', methods=['POST'])
 def add_random(email):
     if request.method == 'POST':
-        url = request.form['url']
-        secure.addToRandom(email, url)
-        return redirect(url_for('view_user', email=email))
+		if email=="no_email_found":
+			email = request.remote_addr
+		url = request.form['url']
+		secure.addToRandom(email, url)
+		return redirect(url_for('view_user', email=email))
 
 @app.route('/deleteRandom/<email>/<url>', methods=['POST'])
 def delete_random(email, url):
     if request.method == 'POST':
-        secure.removeFromRandom(email, url)
-        return redirect(url_for('view_user', email=email))
+		if email=="no_email_found":
+			email = request.remote_addr
+		secure.removeFromRandom(email, url)
+		return redirect(url_for('view_user', email=email))
 
 @app.route('/get_random/<email>', methods=['GET'])
 def get_random(email):
-    return jsonify(r=secure.getFromRandom(email))
+	if email=="no_email_found":
+		email = request.remote_addr
+	return jsonify(r=secure.getFromRandom(email))
 
 ########### VICTIM ###########
 @app.route('/addVictim/<email>', methods=['POST'])

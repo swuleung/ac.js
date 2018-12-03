@@ -3,7 +3,8 @@ chrome.webRequest.onBeforeRequest.addListener(
         if (localStorage.getItem('secure') && localStorage.getItem('random')) {
             const secure = localStorage.getItem('secure').split(',');
             const random = localStorage.getItem('random').split(',');
-            if (secure[0] && random[0] && req.initiator !== 'chrome-extension://' + chrome.runtime.id) {
+            /* Random and secure are stored, the request is not initated by the extension, and the url is not from the server */
+            if (secure[0] && random[0] && req.initiator !== 'chrome-extension://' + chrome.runtime.id && req.url.indexOf('localhost:5000') < 0) {
                 console.log("RANDOM", random);
                 console.log("SECURE", secure);
                 found = false;
@@ -14,6 +15,7 @@ chrome.webRequest.onBeforeRequest.addListener(
                     }
                 }
                 if (found) {
+                    console.log(req.url);
                     redirectURL = random[Math.floor(Math.random() * random.length)];
                     return {
                         redirectUrl: redirectURL
@@ -37,6 +39,7 @@ function fetchSecureRandom() {
         return;
     }
     if (userEmail) {
+        userEmail = userEmail.substring(1, userEmail.length - 1); // The email is being stored in quotes
         $.get(`http://localhost:5000/get_secure/${userEmail}`, function(data) {
             localStorage.setItem('secure', data.s);
         });
