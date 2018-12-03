@@ -19,3 +19,15 @@ div.container {
 .search-tables {
     margin-left: 20px;
 }
+
+.dot {
+    height: 15px;
+    width: 15px;
+    background-color: green;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .tab-content {
+      padding: 20px;
+  }

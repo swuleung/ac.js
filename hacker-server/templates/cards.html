@@ -4,8 +4,8 @@
 
 {% block contents %}
 <div class="form-inline">
-    <label for="logins-search"> Search through logins: </label>
-    <input id="logins-search" type="text" class="form-control search-tables" placeholder="Search..">
+    <label for="cards-search"> Search through cards: </label>
+    <input id="cards-search" type="text" class="form-control search-tables" placeholder="Search for a card">
 </div>
 
 <table class="table table-bordered table-striped">
@@ -20,7 +20,7 @@
             <th scope="col"> CVV </th>
         </tr>
     </thead>
-    <tbody id="logins-table">
+    <tbody id="cards-table">
         {% for card in cards %}
         <tr class="wrap-word">
             <th scope="row"> {{ loop.index }} </th>
@@ -39,9 +39,9 @@
 {% block scripts %}
 <script>
     $(document).ready(function () {
-        $("#logins-search").on("keyup", function () {
+        $("#cards-search").on("keyup", function () {
             var value = $(this).val().toLowerCase();
-            $("#logins-table tr").filter(function () {
+            $("#cards-table tr").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });

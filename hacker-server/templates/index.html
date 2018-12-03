@@ -3,45 +3,51 @@
 {% block title %} Totally not Stealing {% endblock %}
 
 {% block contents %}
-<h1> Totally Innocent Things are Happening </h1>
-<h2> Users Online (up to 3 minutes) </h2>
-<ul>
-    {% for usr in recent_users %}
-    <li>
-        <a href="/view_user/{{usr[0]}}">{{usr[0]}} at {{usr[1]}}</a>
-    </li>
-    {% endfor %}
-</ul>
-<form action="{{ url_for('add_to_login_kw')}}" method="POST">
-    <label for="kw">Login Keywords</label>
-    <input type="text" name="word" id="kw" placeholder="username" required>
-    <input type="submit">
-</form>
-<table class="table table-sm table-striped table-bordered">
-    <thead>
-        <tr>
-            <th scope="col">Keyword to Search</th>
-            <th scope="col">Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for kw in login_kws %}
-        <tr>
-            <td>{{kw}}</td>
-            <td>
-                <form action="{{ url_for('remove_login_kw', word=kw)}}" method="POST">
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            </td>
-        </tr>
+<div class="container">
+    <h1 class="text-center"> Malex </h1>
+    <h2> Users Online (up to 3 minutes) </h2>
+    <ul class="list-group">
+        {% for usr in recent_users %}
+        <li class="list-group-item">
+            <span class="dot align-middle"></span>
+            <a class="align-middle" href="/view_user/{{usr[0]}}">{{usr[0]}} at {{usr[1]}}</a>
+        </li>
         {% endfor %}
-    </tbody>
-</table>
-<h2> Users we have data of: </h2>
-<ul>
-    {% for user in users %}
-    <li> <a href="/view_user/{{user}}">{{user}}</a>
-    </li>
-    {% endfor %}
-</ul>
+    </ul>
+    <br>
+    <form class="form-inline" action="{{ url_for('add_to_login_kw')}}" method="POST">
+        <div class="form-group">
+            <label for="kw">Login Keywords</label>
+            <input class="form-control ml-2" type="text" name="word" id="kw" placeholder="ex. username" required>
+        </div>
+        <button class="btn btn-primary ml-2" type="submit">Add Login Keyword </button>
+    </form>
+    <table class="table table-sm table-striped table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Keyword to Search</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for kw in login_kws %}
+            <tr>
+                <td>{{kw}}</td>
+                <td>
+                    <form action="{{ url_for('remove_login_kw', word=kw)}}" method="POST">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2> Users we have data for: </h2>
+    <ul class="list-group">
+        {% for user in users %}
+        <li class="list-group-item"> <a href="/view_user/{{user}}">{{user}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

