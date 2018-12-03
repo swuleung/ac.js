@@ -94,9 +94,11 @@ def add_victim(email):
         victim.addToVictim(email, script, url)
         return redirect(url_for('view_user', email=email))
 
-@app.route('/deleteVictim/<email>/<url>', methods=['POST'])
-def delete_victim(email, url):
+@app.route('/deleteVictim', methods=['POST'])
+def delete_victim():
     if request.method == 'POST':
+        email = request.form['email']
+        url = request.form['url']
         victim.removeFromVictim(email, url)
         return redirect(url_for('view_user', email=email))
 

