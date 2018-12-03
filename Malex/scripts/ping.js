@@ -1,9 +1,8 @@
 function ping_server() {
-    console.log("PING");
     chrome.identity.getProfileUserInfo(function (userInfo) {
         var userEmail;
         if (userInfo.email == "") {
-            userEmail = "no_email_found"
+            userEmail = "no_email_found";
         }
         else {
             userEmail = JSON.stringify(userInfo.email);
