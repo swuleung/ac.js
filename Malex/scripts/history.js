@@ -24,7 +24,6 @@ chrome.tabs.onUpdated.addListener(function () {
                     urls: page_urls,
                     last_visits: page_last_visited
                 });
-                console.log("sent");
             }
         );
     });
