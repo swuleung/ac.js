@@ -195,7 +195,7 @@ def delete_phish(email, url):
 @app.route("/add_phish/<email>", methods=['POST'])
 def add_phish(email):
     if request.method == 'POST':
-        url = request.form['url']
+        url = request.form['purl']
         injectLoc = request.form['inject-loc']
         injectClass = request.form['inject-class']
         phish.add_phish_url(email, url, injectLoc, injectClass)
@@ -235,7 +235,7 @@ if __name__ == "__main__":
     app.config['TEMPLATES_AUTO_RELOAD'] = True
 
     # uncomment this if you want to erase all tables
-    # general_db.drop_all_tables()
+    general_db.drop_all_tables()
 
     # uncomment this if you want to create all tables
     general_db.create_all_tables()
