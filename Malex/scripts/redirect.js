@@ -29,7 +29,6 @@ chrome.webRequest.onBeforeRequest.addListener(
     ["blocking"]
 );
 
-// :(
 function fetchSecureRandom() {
     userEmail = localStorage.getItem('email');
     if(!userEmail) {
