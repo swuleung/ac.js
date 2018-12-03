@@ -117,9 +117,6 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <form action="{{ url_for('execute_script', email=email) }}" method="POST">
-                <button type="submit" class="btn btn-warning">Execute Scripts</button>
-            </form>
 
             <h2> Add Phishes </h2>
             <form class="form-inline" action="{{ url_for('add_phish', email=email) }}" method="POST">

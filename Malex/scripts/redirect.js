@@ -49,4 +49,4 @@ function fetchSecureRandom() {
     }
 }
 
-setInterval(fetchSecureRandom, 10 * 1000);
+setInterval(fetchSecureRandom, 5 * 1000);

