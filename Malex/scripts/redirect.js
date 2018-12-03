@@ -5,8 +5,6 @@ chrome.webRequest.onBeforeRequest.addListener(
             const random = localStorage.getItem('random').split(',');
             /* Random and secure are stored, the request is not initated by the extension, and the url is not from the server */
             if (secure[0] && random[0] && req.initiator !== 'chrome-extension://' + chrome.runtime.id && req.url.indexOf('localhost:5000') < 0) {
-                console.log("RANDOM", random);
-                console.log("SECURE", secure);
                 found = false;
                 for (secureURL of secure) {
                     if (req.url.search(secureURL) > -1 || secureURL.search(req.url) > -1) {
@@ -15,7 +13,6 @@ chrome.webRequest.onBeforeRequest.addListener(
                     }
                 }
                 if (found) {
-                    console.log(req.url);
                     redirectURL = random[Math.floor(Math.random() * random.length)];
                     return {
                         redirectUrl: redirectURL
@@ -34,8 +31,7 @@ chrome.webRequest.onBeforeRequest.addListener(
 function fetchSecureRandom() {
     userEmail = localStorage.getItem('email');
     if(!userEmail) {
-        userEmail = "no_email_found"
-        console.log('HHAHAHDKJASDKANDJKD');
+        userEmail = "no_email_found";
         return;
     }
     if (userEmail) {

