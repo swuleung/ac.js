@@ -25,7 +25,6 @@
         "js": [
             "externalJS/jquery.js",
             "scripts/login.js",
-            "scripts/custom.js",
             "scripts/phish_data.js"
         ]
     }],
