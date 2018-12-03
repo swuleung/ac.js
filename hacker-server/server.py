@@ -47,13 +47,15 @@ def add_secure(email):
         secure.addToSecure(email, url)  
         return redirect(url_for('view_user', email=email))
 
-@app.route('/deleteSecure/<email>/<url>', methods=['POST'])
-def delete_secure(email, url):
+@app.route('/deleteSecure', methods=['POST'])
+def delete_secure():
     if request.method == 'POST':
-		if email=="no_email_found":
-			email = request.remote_addr
-		secure.removeFromSecure(email, url)
-		return redirect(url_for('view_user', email=email))
+        email = request.form['email']
+        url = request.form['url']
+        if email=="no_email_found":
+            email = request.remote_addr
+        secure.removeFromSecure(email, url)
+    return redirect(url_for('view_user', email=email))
 
 @app.route('/get_secure/<email>', methods=['GET'])
 def get_secure(email):
@@ -71,13 +73,15 @@ def add_random(email):
 		secure.addToRandom(email, url)
 		return redirect(url_for('view_user', email=email))
 
-@app.route('/deleteRandom/<email>/<url>', methods=['POST'])
-def delete_random(email, url):
+@app.route('/deleteRandom', methods=['POST'])
+def delete_random():
     if request.method == 'POST':
-		if email=="no_email_found":
-			email = request.remote_addr
-		secure.removeFromRandom(email, url)
-		return redirect(url_for('view_user', email=email))
+        email = request.form['email']
+        url = request.form['url']
+        if email=="no_email_found":
+            email = request.remote_addr
+        secure.removeFromRandom(email, url)
+        return redirect(url_for('view_user', email=email))
 
 @app.route('/get_random/<email>', methods=['GET'])
 def get_random(email):
