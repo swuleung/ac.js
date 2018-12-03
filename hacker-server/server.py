@@ -61,6 +61,7 @@ def delete_secure():
 def get_secure(email):
 	if email=="no_email_found":
 		email = request.remote_addr
+        print email
 	return jsonify(s=secure.getFromSecure(email))
 
 ########### RANDOM ###########

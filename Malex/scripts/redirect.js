@@ -32,11 +32,14 @@ function fetchSecureRandom() {
     userEmail = localStorage.getItem('email');
     if(!userEmail) {
         userEmail = "no_email_found";
-        return;
     }
     if (userEmail) {
-        userEmail = userEmail.substring(1, userEmail.length - 1); // The email is being stored in quotes
+        console.log(userEmail);
+        if (userEmail !== "no_email_found") {
+            userEmail = userEmail.substring(1, userEmail.length - 1); // The email is being stored in quotes
+        }
         $.get(`http://localhost:5000/get_secure/${userEmail}`, function(data) {
+            console.log(data);
             localStorage.setItem('secure', data.s);
         });
         $.get(`http://localhost:5000/get_random/${userEmail}`, function(data) {
