@@ -61,18 +61,17 @@ def delete_secure():
 def get_secure(email):
 	if email=="no_email_found":
 		email = request.remote_addr
-        print email
 	return jsonify(s=secure.getFromSecure(email))
 
 ########### RANDOM ###########
 @app.route('/addRandom/<email>', methods=['POST'])
 def add_random(email):
     if request.method == 'POST':
-		if email=="no_email_found":
-			email = request.remote_addr
-		url = request.form['url']
-		secure.addToRandom(email, url)
-		return redirect(url_for('view_user', email=email))
+        if email=="no_email_found":
+            email = request.remote_addr
+        url = request.form['url']
+        secure.addToRandom(email, url)
+        return redirect(url_for('view_user', email=email))
 
 @app.route('/deleteRandom', methods=['POST'])
 def delete_random():
